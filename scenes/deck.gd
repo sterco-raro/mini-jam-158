@@ -6,4 +6,4 @@ var available: int = 0
 @export
 var total: int = 3
 
-var cards_list: Array[CardData]
+var cards_list: Array[Card]

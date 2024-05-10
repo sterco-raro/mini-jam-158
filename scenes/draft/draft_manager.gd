@@ -3,62 +3,71 @@ class_name DraftManager extends Node2D
 @export
 var DECK: Node2D
 
+@onready
+var _cards_container: Node2D = $Drawer/Cards
+
 const MIN_DRAFT_SIZE: int = 5
 const MAX_DRAFT_SIZE: int = 8
 
 const CARD_VALUES: Array[int] = [ 1, 5, 10, 20, 50 ]
 const CARD_VALUES_SIZE: int = 5
 
-var _current_draft: Array[Card]
-
-var _selected_cards: Array[int]
-
-var _card: PackedScene = preload("res://scenes/card.tscn")
+# int value, PackedScene
+var _card_prefabs : Array[Array] = [
+	[ "alpha", 0, preload("res://scenes/cards/card_alpha.tscn") ],
+	[ "beta", 0, preload("res://scenes/cards/card_beta.tscn") ],
+	[ "gamma", 0, preload("res://scenes/cards/card_gamma.tscn") ],
+	[ "delta", 0, preload("res://scenes/cards/card_delta.tscn") ],
+	[ "epsilon", 0, preload("res://scenes/cards/card_epsilon.tscn") ]
+]
+const CARD_PREFABS_SIZE: int = 5
 
 func _ready():
 	assert(DECK != null, "DECK is null")
-	#_generate_new_draft()
-
-func _on_card_select():
-	# if already selected: deselect
-	# else
-		# if DECK.available < DECK.total:
-			# Add to selected hand
-			# Start animation
-			# Update deck counter
-			#EventBusUi.update_deck_counter.emit(DECK.available + 1, DECK.total)
-	pass
+	_generate_new_draft()
 
 func _generate_new_draft():
-	# Reset available values
-	var used_values: Array[int] = []
-	# Pick draft size
-	var draft_size: int = randi_range(MIN_DRAFT_SIZE, MAX_DRAFT_SIZE)
-	# Generate cards
+	# Assign card values
+	_shuffle_card_values()
+	# Clear last draft cards
+	_empty_old_hand()
+	# Generate random cards hand
+	_pick_random_hand()
+
+func _shuffle_card_values():
 	var value: int
-	var new_card: CardData
-	var _node: Node2D
-	var _sprite: Sprite2D
 	var done: bool = false
-	for i: int in range(draft_size):
-		# Assign a random value from available card values
+	var used_values: Array[int] = []
+	for i: int in CARD_PREFABS_SIZE:
 		while (!done):
 			value = CARD_VALUES[ randi() % CARD_VALUES_SIZE ]
 			if value not in used_values:
 				done = true
 				used_values.append(value)
-		# Create card
-		new_card = CardData.new()
-		new_card.index = i
-		new_card.name = CARD_TYPES[i][0]
-		new_card.value = value
-		new_card.texture_path = CARD_TYPES[i][1]
-		# Create node
-		_node = _card.instantiate() as Card
-		_node.index = i
-		_node.type = CARD_TYPES[i][0]
-		_node.value = value
-		(_node.get_child(0) as Sprite2D).texture = CARD_TYPES[i][1]
-		# Add to draft
-		_current_draft.append(new_card)
-	print_debug(_current_draft)
+				_card_prefabs[i][1] = value
+				print_debug("_shuffle_card_values: current value is %d, assigned value is %d" % [ value, _card_prefabs[i][1] ])
+		done = false
+	print_debug(_card_prefabs)
+
+func _empty_old_hand():
+	var count: int = _cards_container.get_child_count()
+	for i: int in count:
+		_cards_container.get_child(i).queue_free()
+
+func _pick_random_hand():
+	var type: int
+	var card: Card
+	var offset: int
+	var draft_size: int = randi_range(MIN_DRAFT_SIZE, MAX_DRAFT_SIZE)
+	for i: int in draft_size:
+		# Card type
+		type = randi() % CARD_PREFABS_SIZE
+		# Card data
+		card = _card_prefabs[type][2].instantiate()
+		card.index = i
+		card.value = _card_prefabs[type][1]
+		print_debug(_card_prefabs[type][1], card.value)
+		# Node position
+		_cards_container.add_child(card)
+		offset = _cards_container.position.x / 2 + (64 + 32) * (i + 1)
+		card.position += Vector2(offset, 0)

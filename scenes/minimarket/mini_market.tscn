@@ -1,3 +1,3 @@
 [gd_scene format=3 uid="uid://ke5y3affandg"]
 
-[node name="MiniMarketMap" type="Node2D"]
+[node name="MiniMarket" type="Node2D"]
