@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://ck8ofiulky4qg"]
+
+[node name="SummaryScreen" type="CenterContainer"]
+offset_right = 40.0
+offset_bottom = 40.0

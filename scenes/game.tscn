@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://d2axgrtobifbl"]
+
+[ext_resource type="Script" path="res://scenes/game.gd" id="1_e5v7j"]
+[ext_resource type="Script" path="res://scenes/deck.gd" id="2_1l2ff"]
+[ext_resource type="PackedScene" uid="uid://cn1ofjv58rh4p" path="res://scenes/menu/menu.tscn" id="2_wxudx"]
+
+[node name="GameManager" type="Node2D" node_paths=PackedStringArray("DECK", "CONTAINER", "UI_CONTAINER")]
+process_mode = 3
+script = ExtResource("1_e5v7j")
+DECK = NodePath("Deck")
+CONTAINER = NodePath("CurrentScene")
+UI_CONTAINER = NodePath("MenuLayer")
+metadata/_edit_lock_ = true
+
+[node name="Deck" type="Node2D" parent="."]
+script = ExtResource("2_1l2ff")
+metadata/_edit_lock_ = true
+
+[node name="CurrentScene" type="Node2D" parent="."]
+process_mode = 1
+metadata/_edit_lock_ = true
+
+[node name="MenuLayer" type="CanvasLayer" parent="."]
+
+[node name="Menu" parent="MenuLayer" instance=ExtResource("2_wxudx")]
