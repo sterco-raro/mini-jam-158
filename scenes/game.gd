@@ -47,9 +47,13 @@ func _empty_scene():
 		CONTAINER.get_child(i).queue_free()
 
 func _handle_game_new():
+	# Empty current deck
+	#DECK.clear()
+	# Set up Draft screen
 	var draft_screen: DraftManager = ScenesData.SCENE_01_DRAFT.instantiate() as DraftManager
 	draft_screen.DECK_AVAILABLE = DECK.available
 	draft_screen.DECK_TOTAL = DECK.total
+	# Switch scene (add to active node)
 	EventBusGame.scene_change.emit(draft_screen)
 
 func _handle_game_start():

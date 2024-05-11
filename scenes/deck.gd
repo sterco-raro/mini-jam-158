@@ -16,11 +16,17 @@ func _process(_delta):
 		if available == 0:
 			EventBusGame.deck_empty.emit()
 
+func clear():
+	cards_list = []
+	available = 0
+	EventBusUi.deck_counter_update.emit(available, total)
+
 func _on_deck_update(cards: Array[Card]):
 	# Update cards indexes and list
 	var cards_size: int = cards.size()
 	for i: int in cards_size:
 		cards[i].index = i
-		print(cards[i].type)
 		cards_list.append(cards[i])
-	print(cards_list)
+	# Update counters
+	available = cards_size
+	EventBusUi.deck_counter_update.emit(available, total)

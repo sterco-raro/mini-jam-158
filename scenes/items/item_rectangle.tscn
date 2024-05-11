@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://brixumsj0axak"]
+
+[ext_resource type="Script" path="res://scenes/items/item.gd" id="1_mnbm6"]
+[ext_resource type="Texture2D" uid="uid://65b8wt87apoe" path="res://assets/graphics/items/rectangle.png" id="2_fnwoa"]
+
+[node name="ItemRectangle" type="Node2D"]
+script = ExtResource("1_mnbm6")
+type = "Rectangle"
+price = 20
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_fnwoa")

@@ -14,7 +14,7 @@ var _run_button: Button = %RunButton
 const MIN_DRAFT_SIZE: int = 5
 const MAX_DRAFT_SIZE: int = 8
 
-const CARD_VALUES: Array[int] = [ 1, 5, 10, 20, 50 ]
+const CARD_VALUES: Array[int] = [ 5, 10, 20, 50, 100 ]
 const CARD_VALUES_SIZE: int = 5
 
 # int value, PackedScene
@@ -31,10 +31,8 @@ var _current_draft: Array[Card]
 var _selected_cards: Array[int]
 
 func _ready():
-	EventBusGame.card_select.connect(_on_select_card)
-
+	EventBusGame.card_select.connect(_on_card_select)
 	_run_button.disabled = true
-
 	_generate_new_draft()
 
 func _process(_delta):
@@ -112,7 +110,7 @@ func _randomize_position_and_rotation(card: Node2D):
 		if !overlap:
 			done = true
 
-func _on_select_card(index: int):
+func _on_card_select(index: int):
 	# Update selection
 	if index in _selected_cards:
 		_selected_cards.erase(index)

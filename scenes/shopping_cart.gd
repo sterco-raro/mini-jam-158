@@ -1,0 +1,1 @@
+class_name ShoppingCart extends Node2D
