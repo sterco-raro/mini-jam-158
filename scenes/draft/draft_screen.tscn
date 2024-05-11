@@ -9,9 +9,8 @@ script = ExtResource("1_lmv2v")
 metadata/_edit_lock_ = true
 
 [node name="Drawer" type="Node2D" parent="."]
-position = Vector2(400, 200)
+position = Vector2(400, 250)
 metadata/_edit_group_ = true
-metadata/_edit_lock_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Drawer"]
 texture = ExtResource("1_mcfnm")
