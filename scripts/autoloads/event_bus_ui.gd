@@ -5,7 +5,7 @@ signal pause()
 signal resume()
 
 # Deck UI
-signal update_deck_counter(available: int, total: int)
+signal deck_counter_update(available: int, total: int)
 
 func _ready():
 	pause.connect(_on_pause)

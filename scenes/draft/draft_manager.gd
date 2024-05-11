@@ -1,7 +1,9 @@
 class_name DraftManager extends Node2D
 
 @export
-var DECK: Node2D
+var DECK_AVAILABLE: int = 0
+@export
+var DECK_TOTAL: int = 3
 
 @onready
 var _cards_container: Node2D = $Drawer/Cards
@@ -23,9 +25,10 @@ var _card_prefabs : Array[Array] = [
 const CARD_PREFABS_SIZE: int = 5
 
 var _current_draft: Array[Card]
+var _selected_cards: Array[int]
 
 func _ready():
-	assert(DECK != null, "DECK is null")
+	EventBusGame.card_select.connect(_on_select_card)
 	_generate_new_draft()
 
 func _generate_new_draft():
@@ -99,3 +102,17 @@ func _randomize_position_and_rotation(card: Node2D):
 				overlap = true
 		if !overlap:
 			done = true
+
+func _on_select_card(index: int):
+	# Update selection
+	if index in _selected_cards:
+		_selected_cards.erase(index)
+		DECK_AVAILABLE -= 1
+		EventBusGame.draft_card_select.emit(index, false)
+	else:
+		if DECK_AVAILABLE < DECK_TOTAL:
+			_selected_cards.append(index)
+			DECK_AVAILABLE += 1
+			EventBusGame.draft_card_select.emit(index, true)
+	# Update UI
+	EventBusUi.deck_counter_update.emit(DECK_AVAILABLE, DECK_TOTAL)

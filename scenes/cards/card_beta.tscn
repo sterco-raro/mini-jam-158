@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://doj8d73jkdqgb"]
+[gd_scene load_steps=5 format=3 uid="uid://doj8d73jkdqgb"]
 
 [ext_resource type="Script" path="res://scenes/cards/card.gd" id="1_bshj6"]
 [ext_resource type="Texture2D" uid="uid://5lcd8hp4ip50" path="res://assets/graphics/cards/red.png" id="2_4seuu"]
+[ext_resource type="Texture2D" uid="uid://bvrvgg2v8v1yp" path="res://assets/graphics/cards/selection.png" id="3_ck2jg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w5j4x"]
 size = Vector2(64, 128)
@@ -17,3 +18,15 @@ texture = ExtResource("2_4seuu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_w5j4x")
+
+[node name="ClickTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="Selection" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("3_ck2jg")
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

@@ -17,8 +17,8 @@ func _ready():
 	EventBusUi.pause.connect(_on_pause)
 	EventBusUi.resume.connect(_on_resume)
 
-	EventBusGame.change_scene.connect(_handle_change_scene)
-	EventBusGame.new_game.connect(_handle_new_game)
+	EventBusGame.scene_change.connect(_handle_scene_change)
+	EventBusGame.game_new.connect(_handle_game_new)
 
 	CONTAINER.process_mode = Node.PROCESS_MODE_PAUSABLE
 	UI_CONTAINER.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
@@ -44,12 +44,13 @@ func _empty_scene():
 	for i in range(count):
 		CONTAINER.get_child(i).queue_free()
 
-func _handle_new_game():
+func _handle_game_new():
 	var draft_screen: DraftManager = ScenesData.SCENE_01_DRAFT.instantiate() as DraftManager
-	draft_screen.DECK = DECK
-	EventBusGame.change_scene.emit(draft_screen)
+	draft_screen.DECK_AVAILABLE = DECK.available
+	draft_screen.DECK_TOTAL = DECK.total
+	EventBusGame.scene_change.emit(draft_screen)
 
-func _handle_change_scene(instance: Node):
+func _handle_scene_change(instance: Node):
 	_empty_scene()
 	CONTAINER.add_child(instance)
 	EventBusUi.resume.emit()

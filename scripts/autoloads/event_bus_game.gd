@@ -1,13 +1,18 @@
 extends Node
 
-signal change_scene(instance: Node)
+signal scene_change(instance: Node)
+
 # Draft phase
-signal new_game()
+signal game_new()
 # Market phase
-signal start_game()
-## From market to battle phase
-#signal start_battle()
-## From battle back to market phase
-#signal end_battle()
+signal game_start()
 # Results screen
-signal end_game()
+signal game_end()
+
+# From market to battle phase
+signal battle_start()
+# From battle back to market phase
+signal battle_end()
+
+signal card_select(index: int)
+signal draft_card_select(idx: int, selected: bool)

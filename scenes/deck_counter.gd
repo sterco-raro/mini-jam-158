@@ -7,8 +7,8 @@ var _available_slots: Label = %AvailableSlots
 var _total_slots: Label = %TotalSlots
 
 func _ready():
-	EventBusUi.update_deck_counter.connect(_on_update_deck_counter)
+	EventBusUi.deck_counter_update.connect(_on_deck_counter_update)
 
-func _on_update_deck_counter(available: int, total: int):
+func _on_deck_counter_update(available: int, total: int):
 	_available_slots.text = "%d" % available
 	_total_slots.text = "%d" % total
