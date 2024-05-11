@@ -17,4 +17,17 @@ signal battle_end()
 signal card_select(index: int)
 signal draft_card_select(idx: int, selected: bool)
 
+signal deck_empty()
 signal deck_update(available: int, total: int)
+
+var running: bool = false
+
+func _ready():
+	game_start.connect(_on_game_start)
+	game_end.connect(_on_game_end)
+
+func _on_game_start():
+	running = true
+
+func _on_game_end():
+	running = false

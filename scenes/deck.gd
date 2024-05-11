@@ -11,6 +11,11 @@ var cards_list: Array[Card]
 func _ready():
 	EventBusGame.deck_update.connect(_on_deck_update)
 
+func _process(_delta):
+	if EventBusGame.running:
+		if available == 0:
+			EventBusGame.deck_empty.emit()
+
 func _on_deck_update(cards: Array[Card]):
 	# Update cards indexes and list
 	var cards_size: int = cards.size()

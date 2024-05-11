@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/draft/draft_manager.gd" id="1_lmv2v"]
 [ext_resource type="Texture2D" uid="uid://8ylq08tbo7ky" path="res://assets/graphics/drawer.png" id="1_mcfnm"]
-[ext_resource type="PackedScene" uid="uid://qd43okk4ednq" path="res://deck_size_counter.tscn" id="3_jy3eq"]
+[ext_resource type="PackedScene" uid="uid://qd43okk4ednq" path="res://scenes/deck_size_counter.tscn" id="3_jy3eq"]
 
 [node name="DraftScreen" type="Node2D"]
 script = ExtResource("1_lmv2v")
