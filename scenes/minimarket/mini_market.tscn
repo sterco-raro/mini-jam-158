@@ -1,3 +1,6 @@
-[gd_scene format=3 uid="uid://ke5y3affandg"]
+[gd_scene load_steps=2 format=3 uid="uid://ke5y3affandg"]
+
+[ext_resource type="Script" path="res://scenes/minimarket/mini_market.gd" id="1_la3v4"]
 
 [node name="MiniMarket" type="Node2D"]
+script = ExtResource("1_la3v4")

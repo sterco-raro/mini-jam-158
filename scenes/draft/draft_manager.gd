@@ -8,6 +8,9 @@ var DECK_TOTAL: int = 3
 @onready
 var _cards_container: Node2D = $Drawer/Cards
 
+@onready
+var _run_button: Button = %RunButton
+
 const MIN_DRAFT_SIZE: int = 5
 const MAX_DRAFT_SIZE: int = 8
 
@@ -29,7 +32,13 @@ var _selected_cards: Array[int]
 
 func _ready():
 	EventBusGame.card_select.connect(_on_select_card)
+
+	_run_button.disabled = true
+
 	_generate_new_draft()
+
+func _process(_delta):
+	_run_button.disabled = _selected_cards.size() == 0
 
 func _generate_new_draft():
 	# Assign card values
@@ -116,3 +125,10 @@ func _on_select_card(index: int):
 			EventBusGame.draft_card_select.emit(index, true)
 	# Update UI
 	EventBusUi.deck_counter_update.emit(DECK_AVAILABLE, DECK_TOTAL)
+
+func _on_run_button_pressed():
+	var cards: Array[Card] = []
+	for idx: int in _selected_cards:
+		cards.append( _current_draft[ idx ] )
+	EventBusGame.deck_update.emit(cards)
+	EventBusGame.game_start.emit()

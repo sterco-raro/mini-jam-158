@@ -1,0 +1,1 @@
+class_name MarketManager extends Node2D

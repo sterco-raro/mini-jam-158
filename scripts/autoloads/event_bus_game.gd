@@ -16,3 +16,5 @@ signal battle_end()
 
 signal card_select(index: int)
 signal draft_card_select(idx: int, selected: bool)
+
+signal deck_update(available: int, total: int)

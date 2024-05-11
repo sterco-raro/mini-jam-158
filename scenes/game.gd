@@ -19,6 +19,7 @@ func _ready():
 
 	EventBusGame.scene_change.connect(_handle_scene_change)
 	EventBusGame.game_new.connect(_handle_game_new)
+	EventBusGame.game_start.connect(_handle_game_start)
 
 	CONTAINER.process_mode = Node.PROCESS_MODE_PAUSABLE
 	UI_CONTAINER.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
@@ -49,6 +50,10 @@ func _handle_game_new():
 	draft_screen.DECK_AVAILABLE = DECK.available
 	draft_screen.DECK_TOTAL = DECK.total
 	EventBusGame.scene_change.emit(draft_screen)
+
+func _handle_game_start():
+	var market_screen: MarketManager = ScenesData.SCENE_02_MARKET.instantiate() as MarketManager
+	EventBusGame.scene_change.emit(market_screen)
 
 func _handle_scene_change(instance: Node):
 	_empty_scene()
