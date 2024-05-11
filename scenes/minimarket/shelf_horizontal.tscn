@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://ba2pb8e8yws56"]
+
+[ext_resource type="Texture2D" uid="uid://bf78kn7p0tk1" path="res://assets/graphics/shelf-single.png" id="1_51pal"]
+[ext_resource type="PackedScene" uid="uid://n0efhl06mp0k" path="res://scenes/minimarket/item_slot.tscn" id="2_3kait"]
+
+[node name="ShelfHorizontal" type="Node2D"]
+scale = Vector2(2, 2)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 4.76837e-07)
+scale = Vector2(1, 0.56)
+texture = ExtResource("1_51pal")
+metadata/_edit_lock_ = true
+
+[node name="Slots" type="Node2D" parent="."]
+unique_name_in_owner = true
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="Slot1" parent="Slots" instance=ExtResource("2_3kait")]
+position = Vector2(-30, 0)
+
+[node name="Slot2" parent="Slots" instance=ExtResource("2_3kait")]
+
+[node name="Slot3" parent="Slots" instance=ExtResource("2_3kait")]
+position = Vector2(30, 0)

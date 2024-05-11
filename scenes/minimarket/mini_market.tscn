@@ -1,6 +1,102 @@
-[gd_scene load_steps=2 format=3 uid="uid://ke5y3affandg"]
+[gd_scene load_steps=10 format=3 uid="uid://ke5y3affandg"]
 
 [ext_resource type="Script" path="res://scenes/minimarket/mini_market.gd" id="1_la3v4"]
+[ext_resource type="Texture2D" uid="uid://b071ng4ifwa8f" path="res://assets/graphics/market-floor.png" id="2_hxc46"]
+[ext_resource type="Texture2D" uid="uid://b4ogm3lbhf6di" path="res://assets/graphics/door.png" id="3_w8l60"]
+[ext_resource type="PackedScene" uid="uid://ba2pb8e8yws56" path="res://scenes/minimarket/shelf_horizontal.tscn" id="4_7u0e4"]
+[ext_resource type="PackedScene" uid="uid://dvupbik1rpgbt" path="res://scenes/minimarket/shopkeeper.tscn" id="5_wr6ln"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_77332"]
+size = Vector2(737, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ca5u5"]
+size = Vector2(32, 600)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yahq4"]
+size = Vector2(736, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8mw6n"]
+size = Vector2(31, 600)
 
 [node name="MiniMarket" type="Node2D"]
 script = ExtResource("1_la3v4")
+metadata/_edit_lock_ = true
+
+[node name="Environment" type="Node2D" parent="."]
+position = Vector2(400, 300)
+
+[node name="Floor" type="Sprite2D" parent="Environment"]
+texture = ExtResource("2_hxc46")
+metadata/_edit_lock_ = true
+
+[node name="Door" type="Sprite2D" parent="Environment"]
+position = Vector2(-384, 1.00001)
+rotation = 1.5708
+scale = Vector2(3.79743, 3.5)
+texture = ExtResource("3_w8l60")
+
+[node name="Shelves" type="Node2D" parent="Environment"]
+unique_name_in_owner = true
+metadata/_edit_lock_ = true
+
+[node name="ShelfHorizontal" parent="Environment/Shelves" instance=ExtResource("4_7u0e4")]
+position = Vector2(-120, -240)
+
+[node name="ShelfHorizontal2" parent="Environment/Shelves" instance=ExtResource("4_7u0e4")]
+position = Vector2(120, -240)
+
+[node name="ShelfHorizontal3" parent="Environment/Shelves" instance=ExtResource("4_7u0e4")]
+position = Vector2(-120, 240)
+
+[node name="ShelfHorizontal4" parent="Environment/Shelves" instance=ExtResource("4_7u0e4")]
+position = Vector2(120, 240)
+
+[node name="ShelfVertical1" parent="Environment/Shelves" instance=ExtResource("4_7u0e4")]
+position = Vector2(340, -110)
+rotation = 1.5708
+
+[node name="ShelfVertical2" parent="Environment/Shelves" instance=ExtResource("4_7u0e4")]
+position = Vector2(340, 110)
+rotation = 1.5708
+
+[node name="Walls" type="Node2D" parent="Environment"]
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="North" type="StaticBody2D" parent="Environment/Walls"]
+position = Vector2(0, -284)
+metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Walls/North"]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_77332")
+
+[node name="East" type="StaticBody2D" parent="Environment/Walls"]
+position = Vector2(384, 0)
+metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Walls/East"]
+shape = SubResource("RectangleShape2D_ca5u5")
+
+[node name="South" type="StaticBody2D" parent="Environment/Walls"]
+position = Vector2(0, 284)
+metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Walls/South"]
+shape = SubResource("RectangleShape2D_yahq4")
+
+[node name="West" type="StaticBody2D" parent="Environment/Walls"]
+position = Vector2(-384, 0)
+metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Walls/West"]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_8mw6n")
+
+[node name="Shopkeeper" parent="." instance=ExtResource("5_wr6ln")]
+unique_name_in_owner = true
+position = Vector2(81, 171)
