@@ -18,9 +18,11 @@ signal card_select(index: int)
 signal draft_card_select(idx: int, selected: bool)
 
 signal deck_empty()
-signal deck_update(cards: Array[Card])
+signal deck_update(new_cards: Array[Card])
 
 signal item_select(index: int)
+
+signal battle_card_select(card: Card)
 
 var running: bool = false
 

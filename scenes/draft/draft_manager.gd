@@ -11,19 +11,16 @@ var _cards_container: Node2D = $Drawer/Cards
 @onready
 var _run_button: Button = %RunButton
 
-const MIN_DRAFT_SIZE: int = 5
-const MAX_DRAFT_SIZE: int = 8
-
-const CARD_VALUES: Array[int] = [ 5, 10, 20, 50, 100 ]
-const CARD_VALUES_SIZE: int = 5
+const MIN_DRAFT_SIZE: int = 8
+const MAX_DRAFT_SIZE: int = 12
 
 # int value, PackedScene
 var _card_prefabs : Array[Array] = [
-	[ "alpha", 0, preload("res://scenes/cards/card_alpha.tscn") ],
-	[ "beta", 0, preload("res://scenes/cards/card_beta.tscn") ],
-	[ "gamma", 0, preload("res://scenes/cards/card_gamma.tscn") ],
-	[ "delta", 0, preload("res://scenes/cards/card_delta.tscn") ],
-	[ "epsilon", 0, preload("res://scenes/cards/card_epsilon.tscn") ]
+	[ "Alpha", 		1, 	preload("res://scenes/cards/card_alpha.tscn") 	],
+	[ "Beta", 		5, 	preload("res://scenes/cards/card_beta.tscn") 	],
+	[ "Gamma", 		10, preload("res://scenes/cards/card_gamma.tscn") 	],
+	[ "Delta",		20, preload("res://scenes/cards/card_delta.tscn") 	],
+	[ "Epsilon", 	50, preload("res://scenes/cards/card_epsilon.tscn") ]
 ]
 const CARD_PREFABS_SIZE: int = 5
 
@@ -39,25 +36,8 @@ func _process(_delta):
 	_run_button.disabled = _selected_cards.size() == 0
 
 func _generate_new_draft():
-	# Assign card values
-	_shuffle_card_values()
-	# Clear last draft cards
 	_empty_old_hand()
-	# Generate random cards hand
 	_pick_random_hand()
-
-func _shuffle_card_values():
-	var value: int
-	var done: bool = false
-	var used_values: Array[int] = []
-	for i: int in CARD_PREFABS_SIZE:
-		while (!done):
-			value = CARD_VALUES[ randi() % CARD_VALUES_SIZE ]
-			if value not in used_values:
-				done = true
-				used_values.append(value)
-				_card_prefabs[i][1] = value
-		done = false
 
 func _empty_old_hand():
 	var count: int = _cards_container.get_child_count()

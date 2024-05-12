@@ -6,6 +6,10 @@ signal resume()
 
 # Deck UI
 signal deck_counter_update(available: int, total: int)
+# Shopping cart UI
+signal cart_counter_update(shopping_cart: Dictionary)
+# Wishlist UI
+signal wishlist_counter_update(wishlist: Dictionary)
 
 func _ready():
 	pause.connect(_on_pause)

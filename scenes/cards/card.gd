@@ -9,6 +9,9 @@ var value: int = 0
 @export
 var index: int = 0
 
+@export
+var disable_tweens: bool = false
+
 const DEFAULT_MODULATE = Color(1, 1, 1, 1)
 const DEFAULT_SCALE = Vector2.ONE
 const HIGHLIGH_MODULATE = Color(1, 1, 1, 0.95)
@@ -31,20 +34,26 @@ func _ready():
 	_selection_sprite.modulate.a = 0.4
 
 func _on_area_2d_mouse_entered():
+	if disable_tweens:
+		return
 	var tween = get_tree().create_tween()
-	tween.set_parallel()
+	tween.set_parallel().set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property($Sprite2D, "modulate", HIGHLIGH_MODULATE, 0.2)
 	tween.tween_property($Sprite2D, "scale", HIGHLIGHT_SCALE, 0.2)
 	tween.tween_property(_selection_sprite, "scale", HIGHLIGHT_SCALE, 0.2)
 
 func _on_area_2d_mouse_exited():
+	if disable_tweens:
+		return
 	var tween = get_tree().create_tween()
-	tween.set_parallel()
+	tween.set_parallel().set_trans(Tween.TRANS_CUBIC)
 	tween.tween_property($Sprite2D, "modulate", DEFAULT_MODULATE, 0.2)
 	tween.tween_property($Sprite2D, "scale", DEFAULT_SCALE, 0.2)
 	tween.tween_property(_selection_sprite, "scale", DEFAULT_SCALE, 0.2)
 
 func _on_area_2d_input_event(_viewport, event, _shape_idx):
+	if disable_tweens:
+		return
 	if !_click_timer.is_stopped():
 		return
 

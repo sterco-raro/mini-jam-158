@@ -20,22 +20,21 @@ func put_item(item: Item):
 	_item.position = $ItemContainer.position
 
 func take_item():
-	# TODO TEST ME
-	var item: Item = _item
-	$ItemContainer.remove_child(_item)
-	_item = null
-	return item
+	if _item:
+		var item: Item = _item
+		$ItemContainer.remove_child(_item)
+		_item = null
+		return item
+	return null
 
 func _on_area_2d_mouse_entered():
 	if _item:
 		var tween = get_tree().create_tween()
-		tween.set_parallel()
 		tween.tween_property($ItemContainer, "scale", HIGHLIGHT_SCALE, 0.2)
 
 func _on_area_2d_mouse_exited():
 	if _item:
 		var tween = get_tree().create_tween()
-		tween.set_parallel()
 		tween.tween_property($ItemContainer, "scale", DEFAULT_SCALE, 0.2)
 
 func _on_area_2d_input_event(_viewport, event, _shape_idx):
