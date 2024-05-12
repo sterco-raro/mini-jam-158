@@ -1,18 +1,22 @@
-[gd_scene load_steps=20 format=3 uid="uid://ke5y3affandg"]
+[gd_scene load_steps=24 format=3 uid="uid://ke5y3affandg"]
 
 [ext_resource type="Script" path="res://scenes/minimarket/mini_market.gd" id="1_la3v4"]
 [ext_resource type="Texture2D" uid="uid://b071ng4ifwa8f" path="res://assets/graphics/market-floor.png" id="2_hxc46"]
 [ext_resource type="Texture2D" uid="uid://b4ogm3lbhf6di" path="res://assets/graphics/door.png" id="3_w8l60"]
 [ext_resource type="Texture2D" uid="uid://bf78kn7p0tk1" path="res://assets/graphics/shelf-single.png" id="4_enqat"]
 [ext_resource type="PackedScene" uid="uid://dvupbik1rpgbt" path="res://scenes/minimarket/shopkeeper.tscn" id="5_wr6ln"]
-[ext_resource type="Texture2D" uid="uid://c5ub7muwjrwc8" path="res://assets/graphics/kid.png" id="6_q0ikw"]
+[ext_resource type="Texture2D" uid="uid://c0p78peoujxju" path="res://assets/graphics/kid-2.png" id="6_qlfgy"]
 [ext_resource type="Texture2D" uid="uid://c3rvxifhx2e0f" path="res://assets/graphics/selection_highlight.png" id="7_s1mdk"]
+[ext_resource type="Texture2D" uid="uid://fs4padkf2c78" path="res://assets/graphics/kid-5.png" id="7_xf1kl"]
 [ext_resource type="PackedScene" uid="uid://qd43okk4ednq" path="res://scenes/deck_size_counter.tscn" id="8_n73rp"]
+[ext_resource type="Texture2D" uid="uid://duaykl5tpr7q" path="res://assets/graphics/kid-3.png" id="8_pxotp"]
 [ext_resource type="PackedScene" uid="uid://ek4dp684315i" path="res://scenes/shopping_cart_counter.tscn" id="9_cjxok"]
+[ext_resource type="Texture2D" uid="uid://cxhujicnxj6hk" path="res://assets/graphics/kid-4.png" id="9_n8bct"]
 [ext_resource type="PackedScene" uid="uid://cel1520yhe5y1" path="res://scenes/wishlist_counter.tscn" id="10_s4k2o"]
 [ext_resource type="Script" path="res://scenes/battle/battle_manager.gd" id="11_jef8r"]
 [ext_resource type="Texture2D" uid="uid://dns1j6ios0ils" path="res://assets/graphics/battle_background.png" id="12_2ltih"]
 [ext_resource type="PackedScene" uid="uid://csn36y2i2ckf4" path="res://scenes/battle/card_slot.tscn" id="13_3l7kd"]
+[ext_resource type="Texture2D" uid="uid://c5ub7muwjrwc8" path="res://assets/graphics/kid-1.png" id="17_anvd7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_77332"]
 size = Vector2(737, 32)
@@ -166,24 +170,27 @@ metadata/_edit_lock_ = true
 
 [node name="Kids" type="Node2D" parent="."]
 metadata/_edit_lock_ = true
-metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Kids"]
 position = Vector2(151, 402)
-texture = ExtResource("6_q0ikw")
+texture = ExtResource("6_qlfgy")
 
 [node name="Sprite2D2" type="Sprite2D" parent="Kids"]
 position = Vector2(648, 220)
-texture = ExtResource("6_q0ikw")
+texture = ExtResource("6_qlfgy")
+
+[node name="Sprite2D5" type="Sprite2D" parent="Kids"]
+position = Vector2(474, 477)
+texture = ExtResource("7_xf1kl")
 
 [node name="Sprite2D3" type="Sprite2D" parent="Kids"]
 position = Vector2(206, 205)
-texture = ExtResource("6_q0ikw")
+texture = ExtResource("8_pxotp")
 flip_h = true
 
 [node name="Sprite2D4" type="Sprite2D" parent="Kids"]
 position = Vector2(189, 403)
-texture = ExtResource("6_q0ikw")
+texture = ExtResource("9_n8bct")
 flip_h = true
 
 [node name="UI" type="CanvasLayer" parent="."]
@@ -242,7 +249,7 @@ metadata/_edit_lock_ = true
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="BattleScene/Player"]
-texture = ExtResource("6_q0ikw")
+texture = ExtResource("17_anvd7")
 
 [node name="PlayerHand" type="Node2D" parent="BattleScene"]
 position = Vector2(384, 536)
@@ -250,15 +257,19 @@ metadata/_edit_lock_ = true
 
 [node name="CardSlot1" parent="BattleScene/PlayerHand" instance=ExtResource("13_3l7kd")]
 position = Vector2(-120, -32)
+PLAYER_OWNED = true
 
 [node name="CardSlot2" parent="BattleScene/PlayerHand" instance=ExtResource("13_3l7kd")]
 position = Vector2(-40, -32)
+PLAYER_OWNED = true
 
 [node name="CardSlot3" parent="BattleScene/PlayerHand" instance=ExtResource("13_3l7kd")]
 position = Vector2(40, -32)
+PLAYER_OWNED = true
 
 [node name="CardSlot4" parent="BattleScene/PlayerHand" instance=ExtResource("13_3l7kd")]
 position = Vector2(120, -32)
+PLAYER_OWNED = true
 
 [node name="BattleSceneUI" type="CanvasLayer" parent="BattleScene"]
 unique_name_in_owner = true
@@ -303,3 +314,6 @@ unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 text = "CONFIRM"
+
+[connection signal="pressed" from="BattleScene/BattleSceneUI/MarginContainer/VBoxContainer/PanelContainer1/ChangeButton" to="BattleScene" method="_on_change_button_pressed"]
+[connection signal="pressed" from="BattleScene/BattleSceneUI/MarginContainer/VBoxContainer/PanelContainer2/ConfirmButton" to="BattleScene" method="_on_confirm_button_pressed"]

@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://dns1j6ios0ils" path="res://assets/graphics/battle_background.png" id="1_5jiua"]
 [ext_resource type="PackedScene" uid="uid://dvupbik1rpgbt" path="res://scenes/minimarket/shopkeeper.tscn" id="1_g7p1b"]
 [ext_resource type="Script" path="res://scenes/battle/battle_manager.gd" id="1_hofdb"]
-[ext_resource type="Texture2D" uid="uid://c5ub7muwjrwc8" path="res://assets/graphics/kid.png" id="2_lic2g"]
+[ext_resource type="Texture2D" uid="uid://c5ub7muwjrwc8" path="res://assets/graphics/kid-1.png" id="2_lic2g"]
 [ext_resource type="PackedScene" uid="uid://csn36y2i2ckf4" path="res://scenes/battle/card_slot.tscn" id="2_u7yhs"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f2f3r"]

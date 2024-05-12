@@ -15,9 +15,10 @@ func _ready():
 	assert(index != -1, "ItemSlot index is -1")
 
 func put_item(item: Item):
-	_item = item
-	$ItemContainer.add_child(_item)
-	_item.position = $ItemContainer.position
+	if !_item:
+		_item = item
+		$ItemContainer.add_child(_item)
+		_item.position = $ItemContainer.position
 
 func take_item():
 	if _item:
@@ -38,6 +39,8 @@ func _on_area_2d_mouse_exited():
 		tween.tween_property($ItemContainer, "scale", DEFAULT_SCALE, 0.2)
 
 func _on_area_2d_input_event(_viewport, event, _shape_idx):
+	if !_item:
+		return
 	if !_click_cooldown.is_stopped():
 		return
 	if event is InputEventMouseButton:

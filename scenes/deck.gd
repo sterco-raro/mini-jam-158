@@ -4,11 +4,11 @@ class_name Deck extends Node2D
 var available: int = 0
 
 @export
-var total: int = 5
+var total: int = 10
 
 var cards: Dictionary = {
-	"Alpha": 	{ "value": 1, "quantity": 0  },
-	"Beta":  	{ "value": 5, "quantity": 0  },
+	"Alpha": 	{ "value": 1,  "quantity": 0 },
+	"Beta":  	{ "value": 5,  "quantity": 0 },
 	"Gamma": 	{ "value": 10, "quantity": 0 },
 	"Delta": 	{ "value": 20, "quantity": 0 },
 	"Epsilon": 	{ "value": 50, "quantity": 0 }

@@ -48,16 +48,37 @@ func _ready():
 
 	_init_scene()
 
+func _process(_delta):
+	_check_cart_status()
+
 func _on_deck_empty():
 	EventBusGame.game_end.emit()
 
 func _on_item_select(index: int):
 	if slots[index]._item:
 		selected_slot = index
-		selected_item = slots[selected_slot].take_item() as Item
+
+		#selected_item = slots[selected_slot].take_item() as Item
+
+		print("Slots[selected_slot]: %s" % slots[selected_slot]._item.type)
+		print(slots[selected_slot]._item)
+		if slots[selected_slot]._item.type == "Triangle":
+			selected_item = ITEM_PREFABS[0].instantiate()
+		elif slots[selected_slot]._item.type == "Rectangle":
+			selected_item = ITEM_PREFABS[1].instantiate()
+		elif slots[selected_slot]._item.type == "Circle":
+			selected_item = ITEM_PREFABS[2].instantiate()
+		else:
+			assert(false, "MarketManager: unknown item type")
+		print("Selected item (COPY): %s" % selected_item.type)
+		print(selected_item)
+
 		%ItemDisplay.add_child(selected_item)
+		selected_item.position = %ItemDisplay.position
+
 		selection_highlight.position = %ItemDisplay.position + Vector2(3, -5)
 		selection_highlight.visible = true
+
 		_start_battle()
 
 func _start_battle():
@@ -68,27 +89,43 @@ func _start_battle():
 	%BattleScene.visible = true
 	%BattleSceneUI.visible = true
 	# Actually start battle
+	%BattleScene.activate_cooldowns()
 	%BattleScene.init_battle()
 
-func _on_battle_end():
+func _on_battle_end(win: bool):
+	if win:
+		var item: Item = %ItemDisplay.get_child(0)
+		if item:
+			shopping_cart[item.type] += 1
+			if wishlist[item.type] > 0:
+				wishlist[item.type] -= 1
+
+			%ItemDisplay.remove_child(item)
+			item.queue_free()
+			item = null
+
+			item = slots[selected_slot].take_item()
+			item.queue_free()
+			item = null
+
+			selected_slot = -1
+			selection_highlight.visible = false
+
+			EventBusUi.cart_counter_update.emit(shopping_cart)
+			EventBusUi.wishlist_counter_update.emit(wishlist)
+
 	# Close battle screen
 	%BattleScene.visible = false
 	%BattleSceneUI.visible = false
-	%ItemDisplay.remove_child(slots[selected_slot]._item)
 	# Show minimarket scene
 	$Slots.visible = true
 	$UI.visible = true
 
-	# TODO only remove item from slot on player victory
-	var item: Item = slots[selected_slot].take_item()
-	if item == null:
-		return
-	shopping_cart[item.type] += 1
-	selected_slot = -1
-	item.visible = false
-	selection_highlight.visible = false
-	EventBusUi.deck_counter_update.emit(DECK.available, DECK.total)
-	EventBusUi.cart_counter_update.emit(shopping_cart)
+func _check_cart_status():
+	for key in shopping_cart.keys():
+		if shopping_cart[key] != wishlist[key]:
+			return
+	EventBusGame.game_end.emit()
 
 func _init_scene():
 	# Generate random items
@@ -260,6 +297,13 @@ func _generate_wishlist():
 		else:
 			counters[item.type] = 1
 	# Pick random wishlist values
+	var count: int = 0
 	for key in wishlist.keys():
-		wishlist[key] = randi_range(0, counters[key] / 2)
+		wishlist[key] = randi_range(0, counters[key] / 2 + 1)
+		if wishlist[key] > 0:
+			count += 1
+	# Avoid empty wishlists
+	if count == 0:
+		var key: String = wishlist.keys().pick_random()
+		wishlist[key] = randi_range(1, counters[key] / 2 + 1)
 	EventBusUi.wishlist_counter_update.emit(wishlist)

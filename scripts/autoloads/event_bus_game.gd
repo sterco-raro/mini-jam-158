@@ -12,7 +12,7 @@ signal game_end()
 # From market to battle phase
 signal battle_start()
 # From battle back to market phase
-signal battle_end()
+signal battle_end(win: bool)
 
 signal card_select(index: int)
 signal draft_card_select(idx: int, selected: bool)

@@ -3,7 +3,7 @@ class_name DraftManager extends Node2D
 @export
 var DECK_AVAILABLE: int = 0
 @export
-var DECK_TOTAL: int = 3
+var DECK_TOTAL: int = 10
 
 @onready
 var _cards_container: Node2D = $Drawer/Cards
@@ -12,7 +12,7 @@ var _cards_container: Node2D = $Drawer/Cards
 var _run_button: Button = %RunButton
 
 const MIN_DRAFT_SIZE: int = 8
-const MAX_DRAFT_SIZE: int = 12
+const MAX_DRAFT_SIZE: int = 15
 
 # int value, PackedScene
 var _card_prefabs : Array[Array] = [
@@ -55,7 +55,6 @@ func _pick_random_hand():
 		# Card data
 		card = _card_prefabs[type][2].instantiate()
 		card.index = i
-		card.value = _card_prefabs[type][1]
 		# Node position
 		_cards_container.add_child(card)
 		_randomize_position_and_rotation(card)
