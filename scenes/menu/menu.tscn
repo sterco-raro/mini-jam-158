@@ -1,17 +1,22 @@
 [gd_scene load_steps=5 format=3 uid="uid://cn1ofjv58rh4p"]
 
 [ext_resource type="Script" path="res://scenes/menu/menu.gd" id="1_60ghg"]
+[ext_resource type="Texture2D" uid="uid://cvfbcq6tdc3ee" path="res://assets/graphics/kid-chan-bg.png" id="2_wr5cb"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1l337"]
-bg_color = Color(0.917647, 0.917647, 0.917647, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pr6rh"]
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
-[sub_resource type="LabelSettings" id="LabelSettings_vvwmn"]
-font_size = 20
-font_color = Color(0, 0, 0, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_tb6di"]
-font_size = 14
-font_color = Color(0, 0, 0, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_66pfm"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [node name="Menu" type="CenterContainer"]
 process_mode = 2
@@ -22,64 +27,42 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_60ghg")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(400, 300)
+texture = ExtResource("2_wr5cb")
+
 [node name="Page" type="VBoxContainer" parent="."]
 layout_mode = 2
-theme_override_constants/separation = 32
+theme_override_constants/separation = 16
 alignment = 1
 
-[node name="Help" type="PanelContainer" parent="Page"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_1l337")
-
-[node name="MarginContainer" type="MarginContainer" parent="Page/Help"]
-layout_mode = 2
-theme_override_constants/margin_left = 15
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Page/Help/MarginContainer"]
-layout_mode = 2
-alignment = 1
-
-[node name="Header" type="Label" parent="Page/Help/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Controls"
-label_settings = SubResource("LabelSettings_vvwmn")
-
-[node name="Label1" type="Label" parent="Page/Help/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "ESC - Quit the game"
-label_settings = SubResource("LabelSettings_tb6di")
-
-[node name="Label2" type="Label" parent="Page/Help/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "TAB - Show this menu"
-label_settings = SubResource("LabelSettings_tb6di")
-
-[node name="Spacer" type="MarginContainer" parent="Page"]
-layout_mode = 2
-theme_override_constants/margin_bottom = 32
-
-[node name="Buttons" type="MarginContainer" parent="Page"]
+[node name="MarginContainer" type="MarginContainer" parent="Page"]
 layout_mode = 2
 
-[node name="Grid" type="GridContainer" parent="Page/Buttons"]
+[node name="PanelContainer" type="PanelContainer" parent="Page/MarginContainer"]
 layout_mode = 2
-theme_override_constants/h_separation = 10
-theme_override_constants/v_separation = 10
+theme_override_styles/panel = SubResource("StyleBoxFlat_pr6rh")
 
-[node name="Button1" type="Button" parent="Page/Buttons/Grid"]
+[node name="Button1" type="Button" parent="Page/MarginContainer/PanelContainer"]
 custom_minimum_size = Vector2(240, 40)
 layout_mode = 2
 focus_mode = 0
 text = "New Game"
+flat = true
 
-[node name="Button2" type="Button" parent="Page/Buttons/Grid"]
+[node name="MarginContainer2" type="MarginContainer" parent="Page"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Page/MarginContainer2"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_66pfm")
+
+[node name="Button2" type="Button" parent="Page/MarginContainer2/PanelContainer"]
 custom_minimum_size = Vector2(240, 40)
 layout_mode = 2
 focus_mode = 0
 text = "Quit"
+flat = true
 
-[connection signal="pressed" from="Page/Buttons/Grid/Button1" to="." method="_on_button_1_pressed"]
-[connection signal="pressed" from="Page/Buttons/Grid/Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="Page/MarginContainer/PanelContainer/Button1" to="." method="_on_button_1_pressed"]
+[connection signal="pressed" from="Page/MarginContainer2/PanelContainer/Button2" to="." method="_on_button_2_pressed"]
