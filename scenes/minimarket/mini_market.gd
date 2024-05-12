@@ -67,7 +67,8 @@ func _start_battle():
 	# Open battle screen
 	%BattleScene.visible = true
 	%BattleSceneUI.visible = true
-	#%BattleScene.???
+	# Actually start battle
+	%BattleScene.init_battle()
 
 func _on_battle_end():
 	# Close battle screen
