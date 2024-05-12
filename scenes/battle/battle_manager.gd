@@ -151,6 +151,9 @@ func _on_change_button_pressed():
 	var card: Card
 	var slot: CardSlot
 
+	# TODO store burned cards for the end screen
+	EventBusGame.summary_update_burned_cards.emit(selected_cards)
+
 	# Destroy selected cards
 	var selection_size: int = selected_cards.size()
 	for i: int in selection_size:
@@ -210,6 +213,11 @@ func _on_change_button_pressed():
 func _on_confirm_button_pressed():
 	var card: Card
 	var index: int = -1
+
+	# TODO store used cards
+	EventBusGame.summary_update_used_cards.emit(selected_cards)
+	EventBusGame.summary_update_total_items_cost.emit(shopkeeper_hand_left.value + shopkeeper_hand_right.value)
+
 	# Destroy selected cards
 	var selection_size: int = selected_cards.size()
 	for i: int in selection_size:

@@ -61,8 +61,9 @@ func _handle_game_start():
 	market_screen.DECK = DECK
 	EventBusGame.scene_change.emit(market_screen)
 
-func _handle_game_end():
+func _handle_game_end(win:bool):
 	var summary: Summary = ScenesData.SCENE_03_SUMMARY.instantiate() as Summary
+	summary.win = win
 	EventBusGame.scene_change.emit(summary)
 
 func _handle_scene_change(instance: Node):

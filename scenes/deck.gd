@@ -29,6 +29,8 @@ func clear():
 	EventBusUi.deck_counter_update.emit(available, total)
 
 func _on_deck_update(new_cards: Array[Card]):
+	for key in cards.keys():
+		cards[key]["quantity"] = 0
 	# Store new cards
 	var new_cards_size: int = new_cards.size()
 	for i: int in new_cards_size:

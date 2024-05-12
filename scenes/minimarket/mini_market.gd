@@ -51,7 +51,13 @@ func _ready():
 func _process(_delta):
 	_check_cart_status()
 
+	if Input.is_action_just_pressed("test1"):
+		EventBusGame.game_end.emit(false)
+	elif Input.is_action_just_pressed("test2"):
+		EventBusGame.game_end.emit(true)
+
 func _on_deck_empty():
+	EventBusGame.summary_update_shopping_cart.emit(shopping_cart)
 	EventBusGame.game_end.emit()
 
 func _on_item_select(index: int):
@@ -125,6 +131,8 @@ func _check_cart_status():
 	for key in shopping_cart.keys():
 		if shopping_cart[key] != wishlist[key]:
 			return
+
+	EventBusGame.summary_update_shopping_cart.emit(shopping_cart)
 	EventBusGame.game_end.emit()
 
 func _init_scene():
@@ -307,3 +315,4 @@ func _generate_wishlist():
 		var key: String = wishlist.keys().pick_random()
 		wishlist[key] = randi_range(1, counters[key] / 2 + 1)
 	EventBusUi.wishlist_counter_update.emit(wishlist)
+	EventBusGame.summary_update_wishlist.emit(wishlist)

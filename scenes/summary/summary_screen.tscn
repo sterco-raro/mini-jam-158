@@ -1,8 +1,443 @@
-[gd_scene load_steps=2 format=3 uid="uid://ck8ofiulky4qg"]
+[gd_scene load_steps=13 format=3 uid="uid://ck8ofiulky4qg"]
 
 [ext_resource type="Script" path="res://scenes/summary/summary.gd" id="1_wasfa"]
+[ext_resource type="Texture2D" uid="uid://csefkkbuvh5l7" path="res://assets/graphics/shopkeeper.png" id="2_hdx22"]
+[ext_resource type="Texture2D" uid="uid://cfnm7uedfclqn" path="res://assets/graphics/shop-counter.png" id="3_g34dd"]
+[ext_resource type="Texture2D" uid="uid://bj5c2ynvrbssr" path="res://assets/graphics/items/triangle.png" id="4_y7kbq"]
+[ext_resource type="Texture2D" uid="uid://65b8wt87apoe" path="res://assets/graphics/items/rectangle.png" id="5_d0ut5"]
+[ext_resource type="Texture2D" uid="uid://cj2l2a6sr6d3a" path="res://assets/graphics/items/circle.png" id="6_wxvc8"]
+[ext_resource type="Texture2D" uid="uid://drlc4e2inbkhi" path="res://assets/graphics/cards/white.png" id="7_0osay"]
+[ext_resource type="Texture2D" uid="uid://5lcd8hp4ip50" path="res://assets/graphics/cards/red.png" id="8_xhg6k"]
+[ext_resource type="Texture2D" uid="uid://56ymv5wr4a05" path="res://assets/graphics/cards/green.png" id="9_658c7"]
+[ext_resource type="Texture2D" uid="uid://dj61b4216qtg1" path="res://assets/graphics/cards/blue.png" id="10_y4rd0"]
+[ext_resource type="Texture2D" uid="uid://crm1yau54a6en" path="res://assets/graphics/cards/black.png" id="11_6yeym"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nsppg"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.988235, 0.988235, 0.988235, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [node name="SummaryScreen" type="CenterContainer"]
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 100.0
+offset_top = 70.0
+offset_right = 700.0
+offset_bottom = 511.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_wasfa")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(600, 400)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nsppg")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="TopHalf" type="MarginContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 48
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/TopHalf"]
+layout_mode = 2
+theme_override_constants/separation = 64
+
+[node name="GameOverText" type="Label" parent="PanelContainer/VBoxContainer/TopHalf/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "End of the line, kiddo.
+You need more money to beat me!"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/TopHalf/HBoxContainer"]
+layout_mode = 2
+
+[node name="LaughText" type="Label" parent="PanelContainer/VBoxContainer/TopHalf/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "AHAHAH"
+
+[node name="Shopkeeper" type="VBoxContainer" parent="PanelContainer/VBoxContainer/TopHalf/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = -32
+alignment = 1
+
+[node name="ManTexture" type="TextureRect" parent="PanelContainer/VBoxContainer/TopHalf/HBoxContainer/VBoxContainer/Shopkeeper"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("2_hdx22")
+stretch_mode = 5
+flip_h = true
+
+[node name="CounterTexture" type="TextureRect" parent="PanelContainer/VBoxContainer/TopHalf/HBoxContainer/VBoxContainer/Shopkeeper"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("3_g34dd")
+stretch_mode = 5
+
+[node name="BottomHalf" type="MarginContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 64
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf"]
+layout_mode = 2
+theme_override_constants/separation = 64
+alignment = 1
+
+[node name="LeftSide" type="VBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="Triangles" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Triangles"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = ExtResource("4_y7kbq")
+stretch_mode = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Triangles"]
+layout_mode = 2
+alignment = 1
+
+[node name="TriangleCart" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Triangles/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="Separator" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Triangles/HBoxContainer"]
+layout_mode = 2
+text = "/"
+
+[node name="TriangleWishlist" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Triangles/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="Rectangles" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Rectangles"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = ExtResource("5_d0ut5")
+stretch_mode = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Rectangles"]
+layout_mode = 2
+alignment = 1
+
+[node name="RectangleCart" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Rectangles/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="Separator" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Rectangles/HBoxContainer"]
+layout_mode = 2
+text = "/"
+
+[node name="RectangleWishlist" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Rectangles/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="Circles" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Circles"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = ExtResource("6_wxvc8")
+stretch_mode = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Circles"]
+layout_mode = 2
+alignment = 1
+
+[node name="CircleCart" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Circles/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="Separator" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Circles/HBoxContainer"]
+layout_mode = 2
+text = "/"
+
+[node name="CircleWishlist" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Circles/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="RightSide" type="VBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide"]
+layout_mode = 2
+
+[node name="PriceGoal" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="PriceGoalText" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/PriceGoal"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Total items cost:"
+
+[node name="PriceGoalValue" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/PriceGoal"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "0"
+
+[node name="StartingBudget" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 17
+alignment = 1
+
+[node name="StartingBudgetText" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/StartingBudget"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Original budget:"
+
+[node name="StartingBudgetValue" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/StartingBudget"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "0"
+
+[node name="MoneySpent" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 27
+
+[node name="MoneySpentLabel" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Money spent:"
+
+[node name="MoneyBox" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent"]
+layout_mode = 2
+
+[node name="1" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox"]
+layout_mode = 2
+theme_override_constants/separation = -4
+alignment = 1
+
+[node name="BillSpent1" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/1"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/1"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("7_0osay")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="5" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox"]
+layout_mode = 2
+theme_override_constants/separation = -4
+alignment = 1
+
+[node name="BillSpent5" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/5"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/5"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("8_xhg6k")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="10" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox"]
+layout_mode = 2
+theme_override_constants/separation = -4
+alignment = 1
+
+[node name="BillSpent10" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/10"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/10"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("9_658c7")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="20" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox"]
+layout_mode = 2
+theme_override_constants/separation = -4
+alignment = 1
+
+[node name="BillSpent20" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/20"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/20"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("10_y4rd0")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="50" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox"]
+layout_mode = 2
+theme_override_constants/separation = -4
+alignment = 1
+
+[node name="BillSpent50" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/50"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/50"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("11_6yeym")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MoneyBurned" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="MoneyBurnedLabel" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Money burned:"
+
+[node name="MoneyBox" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned"]
+layout_mode = 2
+
+[node name="1" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox"]
+layout_mode = 2
+theme_override_constants/separation = -4
+alignment = 1
+
+[node name="BillBurned1" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/1"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/1"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("7_0osay")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="5" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox"]
+layout_mode = 2
+theme_override_constants/separation = -4
+alignment = 1
+
+[node name="BillBurned5" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/5"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/5"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("8_xhg6k")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="10" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox"]
+layout_mode = 2
+theme_override_constants/separation = -4
+alignment = 1
+
+[node name="BillBurned10" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/10"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/10"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("9_658c7")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="20" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox"]
+layout_mode = 2
+theme_override_constants/separation = -4
+alignment = 1
+
+[node name="BillBurned20" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/20"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/20"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("10_y4rd0")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="50" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox"]
+layout_mode = 2
+theme_override_constants/separation = -4
+alignment = 1
+
+[node name="BillBurned50" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/50"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0"
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/50"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("11_6yeym")
+expand_mode = 1
+stretch_mode = 5

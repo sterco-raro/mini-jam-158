@@ -30,10 +30,13 @@ var _selected_cards: Array[int]
 func _ready():
 	EventBusGame.card_select.connect(_on_card_select)
 	_run_button.disabled = true
+	%ProgressBar.max_value = %Countdown.wait_time
 	_generate_new_draft()
 
 func _process(_delta):
 	_run_button.disabled = _selected_cards.size() == 0
+
+	%ProgressBar.value = %Countdown.wait_time - %Countdown.time_left
 
 func _generate_new_draft():
 	_empty_old_hand()
@@ -108,4 +111,9 @@ func _on_run_button_pressed():
 	for idx: int in _selected_cards:
 		cards.append( _current_draft[ idx ] )
 	EventBusGame.deck_update.emit(cards)
+	EventBusGame.summary_update_draft.emit(cards)
 	EventBusGame.game_start.emit()
+
+
+func _on_countdown_timeout():
+	_on_run_button_pressed()
