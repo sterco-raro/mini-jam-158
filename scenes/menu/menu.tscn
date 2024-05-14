@@ -1,25 +1,24 @@
-[gd_scene load_steps=5 format=3 uid="uid://cn1ofjv58rh4p"]
+[gd_scene load_steps=4 format=3 uid="uid://cn1ofjv58rh4p"]
 
 [ext_resource type="Script" path="res://scenes/menu/menu.gd" id="1_60ghg"]
 [ext_resource type="Texture2D" uid="uid://cvfbcq6tdc3ee" path="res://assets/graphics/kid-chan-bg.png" id="2_wr5cb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pr6rh"]
 bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
 border_color = Color(1, 1, 1, 1)
+border_blend = true
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_66pfm"]
-bg_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[node name="Menu" type="CenterContainer"]
+[node name="Menu" type="Control"]
 process_mode = 2
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -31,38 +30,23 @@ script = ExtResource("1_60ghg")
 position = Vector2(400, 300)
 texture = ExtResource("2_wr5cb")
 
-[node name="Page" type="VBoxContainer" parent="."]
-layout_mode = 2
-theme_override_constants/separation = 16
-alignment = 1
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_left = 548.0
+offset_top = 548.0
+offset_right = 792.0
+offset_bottom = 592.0
+metadata/_edit_group_ = true
 
-[node name="MarginContainer" type="MarginContainer" parent="Page"]
-layout_mode = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="Page/MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pr6rh")
 
-[node name="Button1" type="Button" parent="Page/MarginContainer/PanelContainer"]
+[node name="Button1" type="Button" parent="MarginContainer/PanelContainer"]
 custom_minimum_size = Vector2(240, 40)
 layout_mode = 2
 focus_mode = 0
 text = "New Game"
 flat = true
 
-[node name="MarginContainer2" type="MarginContainer" parent="Page"]
-layout_mode = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="Page/MarginContainer2"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_66pfm")
-
-[node name="Button2" type="Button" parent="Page/MarginContainer2/PanelContainer"]
-custom_minimum_size = Vector2(240, 40)
-layout_mode = 2
-focus_mode = 0
-text = "Quit"
-flat = true
-
-[connection signal="pressed" from="Page/MarginContainer/PanelContainer/Button1" to="." method="_on_button_1_pressed"]
-[connection signal="pressed" from="Page/MarginContainer2/PanelContainer/Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="MarginContainer/PanelContainer/Button1" to="." method="_on_button_1_pressed"]

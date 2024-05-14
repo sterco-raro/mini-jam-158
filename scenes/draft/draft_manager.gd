@@ -104,7 +104,7 @@ func _on_card_select(index: int):
 			DECK_AVAILABLE += 1
 			EventBusGame.draft_card_select.emit(index, true)
 	# Update UI
-	EventBusUi.deck_counter_update.emit(DECK_AVAILABLE, DECK_TOTAL)
+	EventBusUi.deck_ui_update.emit(DECK_AVAILABLE, DECK_TOTAL)
 
 func _on_run_button_pressed():
 	var cards: Array[Card] = []

@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://cel1520yhe5y1"]
 
-[ext_resource type="Script" path="res://scenes/wishlist_counter.gd" id="1_8sy5o"]
+[ext_resource type="Script" path="res://scenes/ui/wishlist_counter.gd" id="1_8sy5o"]
 [ext_resource type="Texture2D" uid="uid://bj5c2ynvrbssr" path="res://assets/graphics/items/triangle.png" id="1_x34mx"]
 [ext_resource type="Texture2D" uid="uid://65b8wt87apoe" path="res://assets/graphics/items/rectangle.png" id="2_1lj0x"]
 [ext_resource type="Texture2D" uid="uid://dfn1rf4404pgq" path="res://assets/graphics/regular-list-check.png" id="2_om2oy"]

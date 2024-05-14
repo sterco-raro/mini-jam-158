@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/draft/draft_manager.gd" id="1_lmv2v"]
 [ext_resource type="Texture2D" uid="uid://8ylq08tbo7ky" path="res://assets/graphics/drawer.png" id="1_mcfnm"]
-[ext_resource type="PackedScene" uid="uid://qd43okk4ednq" path="res://scenes/deck_size_counter.tscn" id="3_jy3eq"]
+[ext_resource type="PackedScene" uid="uid://qd43okk4ednq" path="res://scenes/ui/deck_size_counter.tscn" id="3_w4vv0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jeloq"]
 bg_color = Color(0, 0, 0, 1)
@@ -33,7 +33,7 @@ texture = ExtResource("1_mcfnm")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="DeckSizeCounter" parent="UI" instance=ExtResource("3_jy3eq")]
+[node name="DeckSizeCounter" parent="UI" instance=ExtResource("3_w4vv0")]
 unique_name_in_owner = true
 theme_override_constants/margin_bottom = 16
 

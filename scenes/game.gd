@@ -1,80 +1,166 @@
+class_name GameManager
 extends Node2D
+## The app skeleton, handles all the infrastructure needed to play the game
 
 @export
-var DECK: Deck
-
+var main_menu: Node
 @export
-var CONTAINER: Node2D
+var scene_container: Node2D
 
-@export
-var UI_CONTAINER: Node
+var deck: Deck = Deck.new()
+var shopping_cart: Cart = Cart.new()
+var wishlist: Cart = Cart.new()
+
+var _running: bool = false
+
 
 func _ready():
-	assert(DECK != null, "DECK is null")
-	assert(CONTAINER != null, "CONTAINER is null")
-	assert(UI_CONTAINER != null, "UI_CONTAINER is null")
+	assert(deck != null, "deck is null")
+	assert(main_menu != null, "main_menu is null")
+	assert(scene_container != null, "scene_container is null")
 
+	# UI signals
 	EventBusUi.pause.connect(_on_pause)
 	EventBusUi.resume.connect(_on_resume)
 
-	EventBusGame.scene_change.connect(_handle_scene_change)
+	# Game signals
 	EventBusGame.game_new.connect(_handle_game_new)
 	EventBusGame.game_start.connect(_handle_game_start)
 	EventBusGame.game_end.connect(_handle_game_end)
 
-	CONTAINER.process_mode = Node.PROCESS_MODE_PAUSABLE
-	UI_CONTAINER.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+	EventBusGame.shopping_cart_add_item.connect(_on_shopping_cart_add_item)
+	EventBusGame.shopping_cart_remove_item.connect(_on_shopping_cart_remove_item)
+	EventBusGame.wishlist_add_item.connect(_on_wishlist_add_item)
+	EventBusGame.wishlist_remove_item.connect(_on_wishlist_remove_item)
+
+	EventBusGame.wishlist_randomize.connect(_on_wishlist_randomize)
+
+	# Set container nodes process mode to handle paused/unpaused state
+	scene_container.process_mode = Node.PROCESS_MODE_PAUSABLE
+	main_menu.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 
 	# Pause the app, hide the scene and show the menu
 	EventBusUi.pause.emit()
 
-func _process(_delta):
-	# Quit the app
-	if Input.is_action_just_pressed("quit"):
-		get_tree().quit(0)
 
-	# Toggle the main menu
-	if Input.is_action_just_pressed("toggle_menu"):
-		if get_tree().paused:
-			if CONTAINER.get_children().size() > 0:
-				EventBusUi.resume.emit()
+func _process(_delta: float):
+	if _running:
+		# Game over conditions
+		if shopping_cart.equals(wishlist):
+			EventBusGame.game_end.emit(true)
 		else:
-			EventBusUi.pause.emit()
+			if deck.is_empty():
+				EventBusGame.game_end.emit(false)
 
-func _empty_scene():
-	var count: int = CONTAINER.get_child_count()
-	for i in range(count):
-		CONTAINER.get_child(i).queue_free()
+		# DEBUG CONTROLS
+		if Input.is_action_just_pressed("test1"):
+			EventBusGame.game_end.emit(false)
+		elif Input.is_action_just_pressed("test2"):
+			EventBusGame.game_end.emit(true)
+		# END DEBUG CONTROLS
 
-func _handle_game_new():
-	# Empty current deck
-	#DECK.clear()
-	# Set up Draft screen
-	var draft_screen: DraftManager = ScenesData.SCENE_01_DRAFT.instantiate() as DraftManager
-	draft_screen.DECK_AVAILABLE = DECK.available
-	draft_screen.DECK_TOTAL = DECK.total
-	# Switch scene (add to active node)
-	EventBusGame.scene_change.emit(draft_screen)
-
-func _handle_game_start():
-	var market_screen: MarketManager = ScenesData.SCENE_02_MARKET.instantiate() as MarketManager
-	market_screen.DECK = DECK
-	EventBusGame.scene_change.emit(market_screen)
-
-func _handle_game_end(win:bool):
-	var summary: Summary = ScenesData.SCENE_03_SUMMARY.instantiate() as Summary
-	summary.win = win
-	EventBusGame.scene_change.emit(summary)
-
-func _handle_scene_change(instance: Node):
-	_empty_scene()
-	CONTAINER.add_child(instance)
-	EventBusUi.resume.emit()
 
 func _on_pause():
-	CONTAINER.hide()
-	UI_CONTAINER.show()
+	scene_container.hide()
+	main_menu.show()
+
 
 func _on_resume():
-	CONTAINER.show()
-	UI_CONTAINER.hide()
+	scene_container.show()
+	main_menu.hide()
+
+
+func _on_shopping_cart_add_item(item: Constants.ITEMS):
+	shopping_cart.add_item(item)
+	EventBusUi.shopping_cart_ui_update.emit(shopping_cart)
+
+
+func _on_shopping_cart_remove_item(item: Constants.ITEMS):
+	shopping_cart.remove_item(item)
+	EventBusUi.shopping_cart_ui_update.emit(shopping_cart)
+
+
+func _on_wishlist_add_item(item: Constants.ITEMS):
+	wishlist.add_item(item)
+	EventBusUi.wishlist_ui_update.emit(wishlist)
+
+
+func _on_wishlist_remove_item(item: Constants.ITEMS):
+	wishlist.remove_item(item)
+	EventBusUi.wishlist_ui_update.emit(wishlist)
+
+
+func _on_wishlist_randomize(items: Dictionary):
+	var total: int = 0
+	var value: int = 0
+
+	# Pick random values for each item
+	for key in items:
+		value = randi_range(0, items[key] / 2 + 1)
+		wishlist.set_item(key, value)
+		if value > 0:
+			total += 1
+
+	# Avoid empty wishlists
+	if total == 0:
+		var key = Constants.ITEMS.keys().pick_random()
+		value = randi_range(1, items[key] / 2 + 1)
+		wishlist.set_item(key, value)
+
+	EventBusUi.wishlist_ui_update.emit(wishlist)
+
+	# TODO better summary screen handling
+	EventBusGame.summary_update_wishlist.emit(wishlist)
+
+
+func _handle_game_new():
+	# Clear old game data
+	deck.clear()
+	shopping_cart.clear()
+	wishlist.clear()
+
+	# TODO move this update where it belongs
+	EventBusUi.deck_ui_update.emit(deck.available, deck.max_cards)
+
+	EventBusUi.shopping_cart_ui_update.emit(shopping_cart)
+	EventBusUi.wishlist_ui_update.emit(wishlist)
+
+	# Set up draft screen instance
+	var draft_screen: DraftManager = ScenesData.SCENE_01_DRAFT.instantiate()
+	draft_screen.DECK_AVAILABLE = deck.available
+	draft_screen.DECK_TOTAL = deck.total
+
+	# Switch scene (add to active node)
+	_change_scene(draft_screen)
+
+
+func _handle_game_start():
+	var market_screen: MarketManager = ScenesData.SCENE_02_MARKET.instantiate()
+
+	# TODO move this update where it belongs
+	EventBusUi.deck_ui_update.emit(deck.available, deck.max_cards)
+
+	_change_scene(market_screen)
+
+	_running = true
+
+
+func _handle_game_end(win: bool):
+	# TODO  update summary data
+	var summary: Summary = ScenesData.SCENE_03_SUMMARY.instantiate()
+
+	summary.win = win
+
+	_change_scene(summary)
+
+	_running = false
+
+
+func _change_scene(instance: Node):
+	# Clear the current scene by deleting all children
+	var count: int = scene_container.get_child_count()
+	for i in range(count):
+		scene_container.get_child(i).queue_free()
+	# Add new instance to the current scene and resume gameplay
+	scene_container.add_child(instance)
+	EventBusUi.resume.emit()

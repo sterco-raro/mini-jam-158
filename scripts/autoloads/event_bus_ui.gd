@@ -1,15 +1,11 @@
 extends Node
 
-# Game state
 signal pause()
 signal resume()
 
-# Deck UI
-signal deck_counter_update(available: int, total: int)
-# Shopping cart UI
-signal cart_counter_update(shopping_cart: Dictionary)
-# Wishlist UI
-signal wishlist_counter_update(wishlist: Dictionary)
+signal deck_ui_update(available: int, total: int)
+signal shopping_cart_ui_update(cart: Dictionary)
+signal wishlist_ui_update(wishlist: Dictionary)
 
 func _ready():
 	pause.connect(_on_pause)

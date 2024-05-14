@@ -10,24 +10,30 @@ config_version=5
 
 [application]
 
-config/name="Mini-jam-158"
+config/name="Kid-chan and the Mustached Clerk"
 run/main_scene="res://scenes/game.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
-EventBusUi="*res://scripts/autoloads/event_bus_ui.gd"
+Constants="*res://scripts/autoloads/constants.gd"
 EventBusGame="*res://scripts/autoloads/event_bus_game.gd"
+EventBusUi="*res://scripts/autoloads/event_bus_ui.gd"
 
 [display]
 
 window/size/viewport_width=800
 window/size/viewport_height=600
+window/size/resizable=false
 
 [dotnet]
 
 project/assembly_name="Mini-jam-158"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/nv.file_system/plugin.cfg")
 
 [input]
 

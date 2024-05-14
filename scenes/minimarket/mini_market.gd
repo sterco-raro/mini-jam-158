@@ -1,8 +1,5 @@
 class_name MarketManager extends Node2D
 
-@export
-var DECK: Deck
-
 const ITEM_PREFABS: Array[PackedScene] = [
 	preload("res://scenes/items/item_triangle.tscn"),
 	preload("res://scenes/items/item_rectangle.tscn"),
@@ -11,18 +8,6 @@ const ITEM_PREFABS: Array[PackedScene] = [
 
 const ITEM_SLOT_PREFAB: PackedScene = preload("res://scenes/minimarket/item_slot.tscn")
 const ITEM_SLOT_QUANTITY: int = 18
-
-var wishlist: Dictionary = {
-	"Triangle": 0,
-	"Rectangle": 0,
-	"Circle": 0
-}
-
-var shopping_cart: Dictionary = {
-	"Triangle": 0,
-	"Rectangle": 0,
-	"Circle": 0
-}
 
 var items: Array[Item]
 var slots: Array[ItemSlot]
@@ -33,32 +18,19 @@ var selected_item: Item = null
 @onready
 var selection_highlight: Node2D = %SelectionHighlight
 
+
 func _ready():
 	%BattleScene.DECK = DECK
 	%BattleScene.visible = false
 	%BattleSceneUI.visible = false
 
-	EventBusGame.deck_empty.connect(_on_deck_empty)
 	EventBusGame.item_select.connect(_on_item_select)
 	EventBusGame.battle_end.connect(_on_battle_end)
-
-	EventBusUi.deck_counter_update.emit(DECK.available, DECK.total)
 
 	selection_highlight.visible = false
 
 	_init_scene()
 
-func _process(_delta):
-	_check_cart_status()
-
-	if Input.is_action_just_pressed("test1"):
-		EventBusGame.game_end.emit(false)
-	elif Input.is_action_just_pressed("test2"):
-		EventBusGame.game_end.emit(true)
-
-func _on_deck_empty():
-	EventBusGame.summary_update_shopping_cart.emit(shopping_cart)
-	EventBusGame.game_end.emit()
 
 func _on_item_select(index: int):
 	if slots[index]._item:
@@ -87,6 +59,7 @@ func _on_item_select(index: int):
 
 		_start_battle()
 
+
 func _start_battle():
 	# Hide minimarket scene
 	$Slots.visible = false
@@ -98,13 +71,13 @@ func _start_battle():
 	%BattleScene.activate_cooldowns()
 	%BattleScene.init_battle()
 
+
 func _on_battle_end(win: bool):
 	if win:
 		var item: Item = %ItemDisplay.get_child(0)
 		if item:
-			shopping_cart[item.type] += 1
-			if wishlist[item.type] > 0:
-				wishlist[item.type] -= 1
+			EventBusGame.shopping_cart_add_item.emit(item.type)
+			EventBusGame.wishlist_remove_item.emit(item.type)
 
 			%ItemDisplay.remove_child(item)
 			item.queue_free()
@@ -117,9 +90,6 @@ func _on_battle_end(win: bool):
 			selected_slot = -1
 			selection_highlight.visible = false
 
-			EventBusUi.cart_counter_update.emit(shopping_cart)
-			EventBusUi.wishlist_counter_update.emit(wishlist)
-
 	# Close battle screen
 	%BattleScene.visible = false
 	%BattleSceneUI.visible = false
@@ -127,13 +97,6 @@ func _on_battle_end(win: bool):
 	$Slots.visible = true
 	$UI.visible = true
 
-func _check_cart_status():
-	for key in shopping_cart.keys():
-		if shopping_cart[key] != wishlist[key]:
-			return
-
-	EventBusGame.summary_update_shopping_cart.emit(shopping_cart)
-	EventBusGame.game_end.emit()
 
 func _init_scene():
 	# Generate random items
@@ -142,6 +105,7 @@ func _init_scene():
 
 	_generate_and_fill_itemslots()
 	_generate_wishlist()
+
 
 func _generate_and_fill_itemslots():
 	var slot: ItemSlot
@@ -296,23 +260,14 @@ func _generate_and_fill_itemslots():
 	#slot.position = Vector2(120, 240)
 	#slot.position = Vector2(180, 240)
 
+
 func _generate_wishlist():
-	# Get generated items quantities
-	var counters: Dictionary = {}
+	var item_counters: Dictionary = {}
+
 	for item: Item in items:
-		if item.type in counters:
-			counters[item.type] += 1
+		if item.type in item_counters:
+			item_counters[item.type] += 1
 		else:
-			counters[item.type] = 1
-	# Pick random wishlist values
-	var count: int = 0
-	for key in wishlist.keys():
-		wishlist[key] = randi_range(0, counters[key] / 2 + 1)
-		if wishlist[key] > 0:
-			count += 1
-	# Avoid empty wishlists
-	if count == 0:
-		var key: String = wishlist.keys().pick_random()
-		wishlist[key] = randi_range(1, counters[key] / 2 + 1)
-	EventBusUi.wishlist_counter_update.emit(wishlist)
-	EventBusGame.summary_update_wishlist.emit(wishlist)
+			item_counters[item.type] = 1
+
+	EventBusGame.wishlist_randomize.emit(item_counters)
