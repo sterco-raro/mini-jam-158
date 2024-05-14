@@ -28,12 +28,16 @@ func _ready():
 	EventBusGame.game_start.connect(_handle_game_start)
 	EventBusGame.game_end.connect(_handle_game_end)
 
+	EventBusGame.battle_start.connect(_on_battle_start)
+
 	EventBusGame.shopping_cart_add_item.connect(_on_shopping_cart_add_item)
 	EventBusGame.shopping_cart_remove_item.connect(_on_shopping_cart_remove_item)
 	EventBusGame.wishlist_add_item.connect(_on_wishlist_add_item)
 	EventBusGame.wishlist_remove_item.connect(_on_wishlist_remove_item)
 
 	EventBusGame.wishlist_randomize.connect(_on_wishlist_randomize)
+
+	# TODO change_scene to main menu on startup, remove paue/resume
 
 	# Set container nodes process mode to handle paused/unpaused state
 	scene_container.process_mode = Node.PROCESS_MODE_PAUSABLE
@@ -44,6 +48,16 @@ func _ready():
 
 
 func _process(_delta: float):
+	# DEBUG CONTROLS
+	if Input.is_action_just_pressed("quit"):
+		get_tree().quit(0)
+
+	if Input.is_action_just_pressed("test1"):
+		EventBusGame.game_end.emit(false)
+	elif Input.is_action_just_pressed("test2"):
+		EventBusGame.game_end.emit(true)
+	# END DEBUG CONTROLS
+
 	if _running:
 		# Game over conditions
 		if shopping_cart.equals(wishlist):
@@ -51,13 +65,6 @@ func _process(_delta: float):
 		else:
 			if deck.is_empty():
 				EventBusGame.game_end.emit(false)
-
-		# DEBUG CONTROLS
-		if Input.is_action_just_pressed("test1"):
-			EventBusGame.game_end.emit(false)
-		elif Input.is_action_just_pressed("test2"):
-			EventBusGame.game_end.emit(true)
-		# END DEBUG CONTROLS
 
 
 func _on_pause():
@@ -68,6 +75,23 @@ func _on_pause():
 func _on_resume():
 	scene_container.show()
 	main_menu.hide()
+
+
+func _on_battle_start():
+	var card: Card
+	var index: int = 0
+	var cards: Array[Card] = []
+
+	# Build a list of Cards from the deck data
+	for key in deck.cards:
+		for i: int in deck.cards[key]["quantity"]:
+			card = Constants.PREFAB_CARDS[key.type].instantiate()
+			card.index = index
+			card.disable_tweens = true
+			cards.append(card)
+			index += 1
+
+	EventBusGame.battle_set_player_deck.emit(cards)
 
 
 func _on_shopping_cart_add_item(item: Constants.ITEMS):
@@ -120,15 +144,13 @@ func _handle_game_new():
 	wishlist.clear()
 
 	# TODO move this update where it belongs
-	EventBusUi.deck_ui_update.emit(deck.available, deck.max_cards)
+	EventBusUi.deck_ui_update.emit(deck.available_cards, Constants.DECK_MAX_CARDS)
 
 	EventBusUi.shopping_cart_ui_update.emit(shopping_cart)
 	EventBusUi.wishlist_ui_update.emit(wishlist)
 
 	# Set up draft screen instance
 	var draft_screen: DraftManager = ScenesData.SCENE_01_DRAFT.instantiate()
-	draft_screen.DECK_AVAILABLE = deck.available
-	draft_screen.DECK_TOTAL = deck.total
 
 	# Switch scene (add to active node)
 	_change_scene(draft_screen)

@@ -14,7 +14,9 @@ signal battle_end(win: bool)
 
 signal card_select(index: int)
 signal draft_card_select(idx: int, selected: bool)
+
 signal battle_card_select(card: Card)
+signal battle_set_player_deck(cards: Array[Card])
 
 signal item_select(index: int)
 
@@ -83,17 +85,17 @@ func _ready():
 
 func _on_summary_update_draft(cards: Array[Card]):
 	for i: int in cards.size():
-		starting_deck[cards[i].type]["quantity"] += 1
+		starting_deck[cards[i].type] += 1
 
 
 func _on_summary_update_burned_cards(cards: Array[Card]):
 	for i: int in cards.size():
-		burned_cards[cards[i].type]["quantity"] += 1
+		burned_cards[cards[i].type] += 1
 
 
 func _on_summary_update_used_cards(cards: Array[Card]):
 	for i: int in cards.size():
-		used_cards[cards[i].type]["quantity"] += 1
+		used_cards[cards[i].type] += 1
 
 
 func _on_summary_update_total_items_cost(total_hand_value: int):

@@ -1,7 +1,4 @@
 class_name Item extends Node2D
 
 @export
-var type: String = ""
-
-func _ready():
-	assert(type != "", "Item type is null")
+var type: Constants.ITEMS = Constants.ITEMS.TRIANGLE

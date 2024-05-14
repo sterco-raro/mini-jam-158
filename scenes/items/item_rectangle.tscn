@@ -5,8 +5,7 @@
 
 [node name="ItemRectangle" type="Node2D"]
 script = ExtResource("1_mnbm6")
-type = "Rectangle"
-price = 20
+type = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_fnwoa")

@@ -1,12 +1,7 @@
 class_name BattleManager extends Node2D
 
-const CARD_PREFABS: Dictionary = {
-	"Alpha": preload("res://scenes/cards/card_alpha.tscn"),
-	"Beta": preload("res://scenes/cards/card_beta.tscn"),
-	"Gamma": preload("res://scenes/cards/card_gamma.tscn"),
-	"Delta": preload("res://scenes/cards/card_delta.tscn"),
-	"Epsilon": preload("res://scenes/cards/card_epsilon.tscn")
-}
+@export
+var available_changes: int = 2
 
 var player_hand: Array[Card]
 var shopkeeper_hand_left: Card
@@ -16,23 +11,24 @@ var player_deck: Array[Card]
 
 var selected_cards: Array[Card]
 
-@export
-var available_changes: int = 2
-
-var DECK: Deck
+var _in_battle: bool = false
 
 @onready
 var _change_button: Button = %ChangeButton
-
 @onready
 var _confirm_button: Button = %ConfirmButton
 
-var _in_battle: bool = false
 
 func _ready():
+
 	EventBusGame.battle_card_select.connect(_on_battle_card_select)
+	EventBusGame.battle_set_player_deck.connect(_on_battle_set_player_deck)
+
 	_change_button.disabled = true
 	_confirm_button.disabled = true
+
+	EventBusGame.battle_start.emit()
+
 
 func _process(_delta):
 	if _in_battle:
@@ -74,6 +70,7 @@ func _process(_delta):
 		if !_confirm_button.disabled and player_sum <= shopkeeper_sum:
 			_confirm_button.disabled = true
 
+
 func _on_battle_card_select(card: Card):
 	var index: int = selected_cards.find(card)
 	# New, unselected card
@@ -83,57 +80,44 @@ func _on_battle_card_select(card: Card):
 	else:
 		selected_cards.remove_at(index)
 
+
+func _on_battle_set_player_deck(cards: Array[Card]):
+	player_deck = cards
+
+
 func activate_cooldowns():
 	for i: int in range(4):
 		(get_node("PlayerHand/CardSlot%s" % (i + 1)) as CardSlot)._click_cooldown.start()
 
+
 func init_battle():
-	_get_player_cards_as_list()
 	# Clone two cards from player's deck
 	_pick_shopkeeper_hand()
 	# Draw four cards from player's deck
 	_pick_player_hand()
 	_in_battle = true
 
-func _get_player_cards_as_list():
-	var card: Card
-	var index: int = 0
-	for key in DECK.cards.keys():
-		if DECK.cards[key]["quantity"] == 0:
-			continue
-		for i: int in DECK.cards[key]["quantity"]:
-			card = CARD_PREFABS[key].instantiate()
-			card.index = index
-			card.disable_tweens = true
-			player_deck.append(card)
-			index += 1
 
 func _pick_shopkeeper_hand():
-	var type: String
-	var done: bool = false
-	# Left card
-	while (!done):
-		type = DECK.cards.keys().pick_random()
-		if DECK.cards[type]["quantity"] == 0:
-			continue
-		done = true
-	shopkeeper_hand_left = CARD_PREFABS[type].instantiate()
+	var index: int
+	var type: Constants.CARDS
+	var deck_size: int = player_deck.size()
+
+	index = randi() % deck_size
+	type = player_deck[index].type
+	shopkeeper_hand_left = Constants.PREFAB_CARDS[type].instantiate()
 	shopkeeper_hand_left.disable_tweens = true
 	shopkeeper_hand_left.index = 0
 	%CardSlotLeft.get_child(0).add_child(shopkeeper_hand_left)
-	# Right card
-	done = false
-	while (!done):
-		type = DECK.cards.keys().pick_random()
-		if DECK.cards[type]["quantity"] == 0:
-			continue
-		if type == shopkeeper_hand_left.type and DECK.cards[type]["quantity"] < 2:
-			continue
-		done = true
-	shopkeeper_hand_right = CARD_PREFABS[type].instantiate()
+
+	# Avoid cards duplication by taking two consecutive cards from a random starting position
+	index = (index + 1) % deck_size
+	type = player_deck[index].type
+	shopkeeper_hand_right = Constants.PREFAB_CARDS[type].instantiate()
 	shopkeeper_hand_right.disable_tweens = true
 	shopkeeper_hand_right.index = 1
 	%CardSlotRight.get_child(0).add_child(shopkeeper_hand_right)
+
 
 func _pick_player_hand():
 	var card: Card
@@ -145,6 +129,7 @@ func _pick_player_hand():
 		player_hand.append(card)
 		player_deck.remove_at(idx)
 		get_node("PlayerHand/CardSlot%s" % (i + 1)).add_card(card)
+
 
 func _on_change_button_pressed():
 	var index: int
@@ -210,6 +195,7 @@ func _on_change_button_pressed():
 	# Update available changes counter
 	available_changes -= 1
 
+
 func _on_confirm_button_pressed():
 	var card: Card
 	var index: int = -1
@@ -247,7 +233,6 @@ func _on_confirm_button_pressed():
 	for i: int in player_deck.size():
 		player_deck[i].index = i
 	# Update player deck
-	DECK.clear()
 	EventBusGame.deck_update.emit(player_deck)
 	# Go back to market scene
 	_in_battle = false

@@ -13,6 +13,7 @@ config_version=5
 config/name="Kid-chan and the Mustached Clerk"
 run/main_scene="res://scenes/game.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
+run/max_fps=60
 config/icon="res://icon.svg"
 
 [autoload]
@@ -30,6 +31,10 @@ window/size/resizable=false
 [dotnet]
 
 project/assembly_name="Mini-jam-158"
+
+[editor]
+
+run/main_run_args="--verbose"
 
 [editor_plugins]
 

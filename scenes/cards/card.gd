@@ -1,30 +1,28 @@
 class_name Card extends Node2D
 
-@export
-var type: String = ""
-
-@export
-var value: int = 0
-
-@export
-var index: int = 0
-
-@export
-var disable_tweens: bool = false
-
 const DEFAULT_MODULATE = Color(1, 1, 1, 1)
 const DEFAULT_SCALE = Vector2.ONE
 const HIGHLIGH_MODULATE = Color(1, 1, 1, 0.95)
 const HIGHLIGHT_SCALE = Vector2(1.2, 1.2)
 
-@onready
-var _click_timer: Timer = $ClickTimer
+@export
+var type: Constants.CARDS
+@export
+var value: int = 0
+@export
+var index: int = 0
+@export
+var disable_tweens: bool = false
 
 var _selection_sprite: Sprite2D
 var _selected: bool = false
 
+@onready
+var _click_timer: Timer = $ClickTimer
+
+
 func _ready():
-	assert(type != "", "Card type is empty")
+	assert(type != null, "Card type is null")
 	assert(value != 0, "Card value is zero")
 
 	EventBusGame.draft_card_select.connect(_on_draft_card_select)
