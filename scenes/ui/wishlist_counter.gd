@@ -12,7 +12,7 @@ var _circle_label: Label = %CircleLabel
 func _ready():
 	EventBusUi.wishlist_ui_update.connect(_on_wishlist_ui_update)
 
-func _on_wishlist_ui_update(wishlist: Dictionary):
-	_triangle_label.text 	= "%d" % wishlist["Triangle"]
-	_rectangle_label.text 	= "%d" % wishlist["Rectangle"]
-	_circle_label.text 		= "%d" % wishlist["Circle"]
+func _on_wishlist_ui_update(data: Dictionary):
+	_triangle_label.text 	= "%d" % data[Constants.ITEMS.TRIANGLE]
+	_rectangle_label.text 	= "%d" % data[Constants.ITEMS.RECTANGLE]
+	_circle_label.text 		= "%d" % data[Constants.ITEMS.CIRCLE]

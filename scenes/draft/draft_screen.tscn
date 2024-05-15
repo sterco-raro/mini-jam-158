@@ -25,6 +25,7 @@ texture = ExtResource("1_mcfnm")
 [node name="Cards" type="Node2D" parent="Drawer"]
 
 [node name="UI" type="CanvasLayer" parent="."]
+layer = -1
 
 [node name="CenterContainer" type="CenterContainer" parent="UI"]
 anchors_preset = 7

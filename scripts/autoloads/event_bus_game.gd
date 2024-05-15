@@ -20,6 +20,7 @@ signal battle_set_player_deck(cards: Array[Card])
 
 signal item_select(index: int)
 
+signal deck_add_cards(new_cards: Array[Card])
 signal deck_update(new_cards: Array[Card])
 signal shopping_cart_add_item(item: Constants.ITEMS)
 signal shopping_cart_remove_item(item: Constants.ITEMS)
@@ -73,14 +74,14 @@ var wishlist: Dictionary = {
 	"Circle": 	 0
 }
 
-
-func _ready():
-	summary_update_draft.connect(_on_summary_update_draft)
-	summary_update_burned_cards.connect(_on_summary_update_burned_cards)
-	summary_update_used_cards.connect(_on_summary_update_used_cards)
-	summary_update_total_items_cost.connect(_on_summary_update_total_items_cost)
-	summary_update_shopping_cart.connect(_on_summary_update_shopping_cart)
-	summary_update_wishlist.connect(_on_summary_update_wishlist)
+#
+#func _ready():
+	#summary_update_draft.connect(_on_summary_update_draft)
+	#summary_update_burned_cards.connect(_on_summary_update_burned_cards)
+	#summary_update_used_cards.connect(_on_summary_update_used_cards)
+	#summary_update_total_items_cost.connect(_on_summary_update_total_items_cost)
+	#summary_update_shopping_cart.connect(_on_summary_update_shopping_cart)
+	#summary_update_wishlist.connect(_on_summary_update_wishlist)
 
 
 func _on_summary_update_draft(cards: Array[Card]):

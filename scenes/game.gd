@@ -30,8 +30,12 @@ func _ready():
 
 	EventBusGame.battle_start.connect(_on_battle_start)
 
+	EventBusGame.deck_add_cards.connect(_on_deck_add_cards)
+	EventBusGame.deck_update.connect(_on_deck_update)
+
 	EventBusGame.shopping_cart_add_item.connect(_on_shopping_cart_add_item)
 	EventBusGame.shopping_cart_remove_item.connect(_on_shopping_cart_remove_item)
+
 	EventBusGame.wishlist_add_item.connect(_on_wishlist_add_item)
 	EventBusGame.wishlist_remove_item.connect(_on_wishlist_remove_item)
 
@@ -77,6 +81,52 @@ func _on_resume():
 	main_menu.hide()
 
 
+func _switch_scene(instance: Node):
+	# Clear the current scene by deleting all children
+	var count: int = scene_container.get_child_count()
+	for i in range(count):
+		scene_container.get_child(i).queue_free()
+	# Add new instance to the current scene and resume gameplay
+	scene_container.add_child(instance)
+	EventBusUi.resume.emit()
+
+
+func _handle_game_new():
+	# Clear old game data
+	deck.clear()
+	shopping_cart.clear()
+	wishlist.clear()
+
+	# Generate starting deck to avoid empty drafts and related issues
+	deck.init()
+
+	# Update scene tree and UI
+	var draft_screen: DraftManager = ScenesData.SCENE_01_DRAFT.instantiate()
+	_switch_scene(draft_screen)
+	EventBusUi.deck_ui_update.emit(deck.available_cards, Constants.DECK_MAX_CARDS)
+
+
+func _handle_game_start():
+	var market_screen: MarketManager = ScenesData.SCENE_02_MARKET.instantiate()
+	_switch_scene(market_screen)
+	EventBusUi.deck_ui_update.emit(deck.available_cards, Constants.DECK_MAX_CARDS)
+
+	# Start the main game loop
+	_running = true
+
+
+func _handle_game_end(win: bool):
+	# TODO  update summary data
+	var summary: Summary = ScenesData.SCENE_03_SUMMARY.instantiate()
+
+	summary.win = win
+
+	_switch_scene(summary)
+
+	# Stop the main game loop
+	_running = false
+
+
 func _on_battle_start():
 	var card: Card
 	var index: int = 0
@@ -84,34 +134,43 @@ func _on_battle_start():
 
 	# Build a list of Cards from the deck data
 	for key in deck.cards:
-		for i: int in deck.cards[key]["quantity"]:
-			card = Constants.PREFAB_CARDS[key.type].instantiate()
+		for i: int in deck.cards[key]:
+			card = Constants.PREFAB_CARDS[key].instantiate()
 			card.index = index
 			card.disable_tweens = true
 			cards.append(card)
 			index += 1
-
 	EventBusGame.battle_set_player_deck.emit(cards)
+
+
+func _on_deck_add_cards(cards: Array[Card]):
+	deck.add_cards(cards)
+	EventBusUi.deck_ui_update.emit(deck.available_cards, deck.max_cards)
+
+
+func _on_deck_update(cards: Array[Card]):
+	deck.update(cards)
+	EventBusUi.deck_ui_update.emit(deck.available_cards, deck.max_cards)
 
 
 func _on_shopping_cart_add_item(item: Constants.ITEMS):
 	shopping_cart.add_item(item)
-	EventBusUi.shopping_cart_ui_update.emit(shopping_cart)
+	EventBusUi.shopping_cart_ui_update.emit(shopping_cart.data)
 
 
 func _on_shopping_cart_remove_item(item: Constants.ITEMS):
 	shopping_cart.remove_item(item)
-	EventBusUi.shopping_cart_ui_update.emit(shopping_cart)
+	EventBusUi.shopping_cart_ui_update.emit(shopping_cart.data)
 
 
 func _on_wishlist_add_item(item: Constants.ITEMS):
 	wishlist.add_item(item)
-	EventBusUi.wishlist_ui_update.emit(wishlist)
+	EventBusUi.wishlist_ui_update.emit(wishlist.data)
 
 
 func _on_wishlist_remove_item(item: Constants.ITEMS):
 	wishlist.remove_item(item)
-	EventBusUi.wishlist_ui_update.emit(wishlist)
+	EventBusUi.wishlist_ui_update.emit(wishlist.data)
 
 
 func _on_wishlist_randomize(items: Dictionary):
@@ -131,58 +190,8 @@ func _on_wishlist_randomize(items: Dictionary):
 		value = randi_range(1, items[key] / 2 + 1)
 		wishlist.set_item(key, value)
 
-	EventBusUi.wishlist_ui_update.emit(wishlist)
+	EventBusUi.wishlist_ui_update.emit(wishlist.data)
 
 	# TODO better summary screen handling
 	EventBusGame.summary_update_wishlist.emit(wishlist)
 
-
-func _handle_game_new():
-	# Clear old game data
-	deck.clear()
-	shopping_cart.clear()
-	wishlist.clear()
-
-	# TODO move this update where it belongs
-	EventBusUi.deck_ui_update.emit(deck.available_cards, Constants.DECK_MAX_CARDS)
-
-	EventBusUi.shopping_cart_ui_update.emit(shopping_cart)
-	EventBusUi.wishlist_ui_update.emit(wishlist)
-
-	# Set up draft screen instance
-	var draft_screen: DraftManager = ScenesData.SCENE_01_DRAFT.instantiate()
-
-	# Switch scene (add to active node)
-	_change_scene(draft_screen)
-
-
-func _handle_game_start():
-	var market_screen: MarketManager = ScenesData.SCENE_02_MARKET.instantiate()
-
-	# TODO move this update where it belongs
-	EventBusUi.deck_ui_update.emit(deck.available, deck.max_cards)
-
-	_change_scene(market_screen)
-
-	_running = true
-
-
-func _handle_game_end(win: bool):
-	# TODO  update summary data
-	var summary: Summary = ScenesData.SCENE_03_SUMMARY.instantiate()
-
-	summary.win = win
-
-	_change_scene(summary)
-
-	_running = false
-
-
-func _change_scene(instance: Node):
-	# Clear the current scene by deleting all children
-	var count: int = scene_container.get_child_count()
-	for i in range(count):
-		scene_container.get_child(i).queue_free()
-	# Add new instance to the current scene and resume gameplay
-	scene_container.add_child(instance)
-	EventBusUi.resume.emit()

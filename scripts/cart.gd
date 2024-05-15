@@ -1,6 +1,5 @@
 class_name Cart
-extends Node
-
+extends RefCounted
 
 var data: Dictionary = {
 	Constants.ITEMS.CIRCLE: 0,
@@ -16,9 +15,9 @@ func clear():
 
 func equals(other: Cart):
 	for key in data:
-		if key not in other:
+		if key not in other.data.keys():
 			return false
-		if data[key] != other[key]:
+		if data[key] != other.data[key]:
 			return false
 	return true
 

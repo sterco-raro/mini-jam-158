@@ -27,8 +27,6 @@ func _ready():
 	_change_button.disabled = true
 	_confirm_button.disabled = true
 
-	EventBusGame.battle_start.emit()
-
 
 func _process(_delta):
 	if _in_battle:
@@ -91,10 +89,14 @@ func activate_cooldowns():
 
 
 func init_battle():
+	EventBusGame.battle_start.emit()
+
 	# Clone two cards from player's deck
 	_pick_shopkeeper_hand()
 	# Draw four cards from player's deck
 	_pick_player_hand()
+
+	# We really need to learn finite state machines
 	_in_battle = true
 
 

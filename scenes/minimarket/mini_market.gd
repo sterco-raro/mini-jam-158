@@ -89,7 +89,7 @@ func _on_battle_end(win: bool):
 func _init_scene():
 	# Generate random items
 	var scene: PackedScene
-	var keys: Array[Constants.ITEMS] = _ITEM_PREFABS.keys()
+	var keys: Array = _ITEM_PREFABS.keys()
 	for i in _ITEM_SLOT_QUANTITY:
 		scene = _ITEM_PREFABS[ keys.pick_random() ]
 		items.append(scene.instantiate())

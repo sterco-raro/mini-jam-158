@@ -14,6 +14,7 @@ enum ITEMS {
 	TRIANGLE,
 }
 
+const DECK_INITIAL_SIZE: int = 6
 const DECK_MAX_CARDS: int = 16
 
 const PREFAB_CARDS: Dictionary = {

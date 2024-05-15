@@ -1,8 +1,7 @@
 class_name Deck
-extends Node
+extends RefCounted
 
-# TODO set, get item
-
+const initial_deck_size: int = Constants.DECK_INITIAL_SIZE
 const max_cards: int = Constants.DECK_MAX_CARDS
 
 var available_cards: int = 0
@@ -16,6 +15,26 @@ var cards: Dictionary = {
 }
 
 
+func add_cards(new_cards: Array[Card]):
+	for card: Card in new_cards:
+		cards[card.type] += 1
+	available_cards = new_cards.size()
+
+
+func clear():
+	for key in cards:
+		cards[key] = 0
+	available_cards = 0
+
+
+func init():
+	var key: Constants.CARDS
+	for i: int in initial_deck_size:
+		key = Constants.CARDS[ Constants.CARDS.keys().pick_random() ]
+		cards[key] += 1
+	available_cards = initial_deck_size
+
+
 func is_empty() -> bool:
 	for key in cards:
 		if cards[key] > 0:
@@ -23,16 +42,6 @@ func is_empty() -> bool:
 	return true
 
 
-func clear():
-	for key in cards:
-		cards[key] = 0
-	available_cards = 0
-	EventBusUi.deck_ui_update.emit(available_cards, max_cards)
-
-
 func update(new_cards: Array[Card]):
 	clear()
-	for card: Card in new_cards:
-		cards[card.type] += 1
-	available_cards = new_cards.size()
-	EventBusUi.deck_ui_update.emit(available_cards, max_cards)
+	add_cards(new_cards)

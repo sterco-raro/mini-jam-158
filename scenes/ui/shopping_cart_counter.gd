@@ -12,7 +12,7 @@ var _circle_label: Label = %CircleLabel
 func _ready():
 	EventBusUi.shopping_cart_ui_update.connect(_on_shopping_cart_ui_update)
 
-func _on_shopping_cart_ui_update(shopping_cart: Dictionary):
-	_triangle_label.text 	= "%d" % shopping_cart["Triangle"]
-	_rectangle_label.text 	= "%d" % shopping_cart["Rectangle"]
-	_circle_label.text 		= "%d" % shopping_cart["Circle"]
+func _on_shopping_cart_ui_update(data: Dictionary):
+	_triangle_label.text 	= "%d" % data[Constants.ITEMS.TRIANGLE]
+	_rectangle_label.text 	= "%d" % data[Constants.ITEMS.RECTANGLE]
+	_circle_label.text 		= "%d" % data[Constants.ITEMS.CIRCLE]

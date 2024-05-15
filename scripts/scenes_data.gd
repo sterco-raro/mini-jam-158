@@ -1,4 +1,5 @@
 class_name ScenesData
+extends RefCounted
 
 const SCENE_01_DRAFT: PackedScene = preload("res://scenes/draft/draft_screen.tscn")
 const SCENE_02_MARKET: PackedScene = preload("res://scenes/minimarket/mini_market.tscn")
