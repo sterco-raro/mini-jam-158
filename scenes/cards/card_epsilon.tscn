@@ -9,7 +9,7 @@ size = Vector2(64, 128)
 
 [node name="CardEpsilon" type="Node2D"]
 script = ExtResource("1_ue2n2")
-type = "Epsilon"
+type = 4
 value = 50
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

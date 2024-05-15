@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://csn36y2i2ckf4"]
 
-[ext_resource type="Script" path="res://scenes/battle/card_slot.gd" id="1_03rsq"]
+[ext_resource type="Script" path="res://scenes/minimarket/battle/card_slot.gd" id="1_03rsq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3a6wt"]
 size = Vector2(64, 128)

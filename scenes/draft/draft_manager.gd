@@ -12,7 +12,7 @@ var _cards_container: Node2D = $Drawer/Cards
 
 
 func _ready():
-	EventBusGame.card_select.connect(_on_card_select)
+	EventBusGame.draft_card_select.connect(_on_draft_card_select)
 	%ProgressBar.max_value = %Countdown.wait_time
 	_generate_new_draft()
 
@@ -92,19 +92,19 @@ func _randomize_position_and_rotation(card: Node2D):
 		count += 1
 
 
-func _on_card_select(index: int):
+func _on_draft_card_select(index: int):
 	var available_cards: int = Constants.DECK_INITIAL_SIZE + _selected_cards.size()
 
 	# Deselect card
 	if index in _selected_cards:
 		_selected_cards.erase(index)
-		EventBusGame.draft_card_select.emit(index, false)
+		EventBusGame.card_select.emit(index, false)
 
 	# Select card if there's still some space left
 	else:
 		if available_cards < Constants.DECK_MAX_CARDS:
 			_selected_cards.append(index)
-			EventBusGame.draft_card_select.emit(index, true)
+			EventBusGame.card_select.emit(index, true)
 
 	available_cards = Constants.DECK_INITIAL_SIZE + _selected_cards.size()
 	EventBusUi.deck_ui_update.emit(available_cards, Constants.DECK_MAX_CARDS)

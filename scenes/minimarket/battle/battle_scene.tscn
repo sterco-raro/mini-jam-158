@@ -1,0 +1,142 @@
+[gd_scene load_steps=9 format=3 uid="uid://c3jqxy6w5yt8w"]
+
+[ext_resource type="Script" path="res://scenes/minimarket/battle/battle_manager.gd" id="1_vfhhw"]
+[ext_resource type="Texture2D" uid="uid://dns1j6ios0ils" path="res://assets/graphics/battle_background.png" id="2_fbegw"]
+[ext_resource type="PackedScene" uid="uid://dvupbik1rpgbt" path="res://scenes/minimarket/shopkeeper.tscn" id="3_lfwk2"]
+[ext_resource type="PackedScene" uid="uid://csn36y2i2ckf4" path="res://scenes/minimarket/battle/card_slot.tscn" id="4_4p0ij"]
+[ext_resource type="PackedScene" uid="uid://ewkr0fslbpdq" path="res://scenes/minimarket/battle/selection_highlight.tscn" id="5_btcq5"]
+[ext_resource type="Texture2D" uid="uid://c5ub7muwjrwc8" path="res://assets/graphics/kid-1.png" id="5_vfu2x"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1nh1k"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lxgdx"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="BattleScene" type="Node2D"]
+script = ExtResource("1_vfhhw")
+metadata/_edit_lock_ = true
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(400, 300)
+texture = ExtResource("2_fbegw")
+metadata/_edit_lock_ = true
+
+[node name="Shopkeeper" parent="." instance=ExtResource("3_lfwk2")]
+position = Vector2(672, 64)
+metadata/_edit_lock_ = true
+
+[node name="ShopkeeperHand" type="Node2D" parent="."]
+position = Vector2(304, 64)
+metadata/_edit_lock_ = true
+
+[node name="CardSlotLeft" parent="ShopkeeperHand" instance=ExtResource("4_4p0ij")]
+unique_name_in_owner = true
+position = Vector2(-40, 32)
+
+[node name="CardSlotRight" parent="ShopkeeperHand" instance=ExtResource("4_4p0ij")]
+unique_name_in_owner = true
+position = Vector2(40, 32)
+
+[node name="ItemDisplay" type="Node2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(540, 64)
+metadata/_edit_lock_ = true
+
+[node name="SelectionHighlight" parent="." instance=ExtResource("5_btcq5")]
+unique_name_in_owner = true
+position = Vector2(540, 64)
+scale = Vector2(1.5, 1.5)
+
+[node name="Player" type="Node2D" parent="."]
+position = Vector2(64, 536)
+scale = Vector2(2, 2)
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+texture = ExtResource("5_vfu2x")
+
+[node name="PlayerHand" type="Node2D" parent="."]
+position = Vector2(384, 536)
+metadata/_edit_lock_ = true
+
+[node name="CardSlot1" parent="PlayerHand" instance=ExtResource("4_4p0ij")]
+position = Vector2(-120, -32)
+PLAYER_OWNED = true
+
+[node name="CardSlot2" parent="PlayerHand" instance=ExtResource("4_4p0ij")]
+position = Vector2(-40, -32)
+PLAYER_OWNED = true
+
+[node name="CardSlot3" parent="PlayerHand" instance=ExtResource("4_4p0ij")]
+position = Vector2(40, -32)
+PLAYER_OWNED = true
+
+[node name="CardSlot4" parent="PlayerHand" instance=ExtResource("4_4p0ij")]
+position = Vector2(120, -32)
+PLAYER_OWNED = true
+
+[node name="BattleSceneUI" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+
+[node name="MarginContainer" type="MarginContainer" parent="BattleSceneUI"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BattleSceneUI/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BattleSceneUI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="AvailableBurnLabel" type="Label" parent="BattleSceneUI/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "2"
+
+[node name="Separator" type="Label" parent="BattleSceneUI/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "/"
+
+[node name="TotalBurnLabel" type="Label" parent="BattleSceneUI/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "2"
+
+[node name="PanelContainer1" type="PanelContainer" parent="BattleSceneUI/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1nh1k")
+
+[node name="ChangeButton" type="Button" parent="BattleSceneUI/MarginContainer/VBoxContainer/PanelContainer1"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "BURN"
+
+[node name="PanelContainer2" type="PanelContainer" parent="BattleSceneUI/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_lxgdx")
+
+[node name="ConfirmButton" type="Button" parent="BattleSceneUI/MarginContainer/VBoxContainer/PanelContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "CONFIRM"
+
+[connection signal="pressed" from="BattleSceneUI/MarginContainer/VBoxContainer/PanelContainer1/ChangeButton" to="." method="_on_change_button_pressed"]
+[connection signal="pressed" from="BattleSceneUI/MarginContainer/VBoxContainer/PanelContainer2/ConfirmButton" to="." method="_on_confirm_button_pressed"]

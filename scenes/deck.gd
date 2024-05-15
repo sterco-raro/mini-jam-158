@@ -15,16 +15,28 @@ var cards: Dictionary = {
 }
 
 
+func _update_available_cards():
+	var count: int = 0
+	for key in cards:
+		count += cards[key]
+	available_cards = count
+
 func add_cards(new_cards: Array[Card]):
 	for card: Card in new_cards:
 		cards[card.type] += 1
-	available_cards = new_cards.size()
+	_update_available_cards()
 
 
 func clear():
 	for key in cards:
 		cards[key] = 0
-	available_cards = 0
+	_update_available_cards()
+
+
+func get_size():
+	_update_available_cards()
+	return available_cards
+
 
 
 func init():
@@ -32,7 +44,7 @@ func init():
 	for i: int in initial_deck_size:
 		key = Constants.CARDS[ Constants.CARDS.keys().pick_random() ]
 		cards[key] += 1
-	available_cards = initial_deck_size
+	_update_available_cards()
 
 
 func is_empty() -> bool:

@@ -25,7 +25,7 @@ func _ready():
 	assert(type != null, "Card type is null")
 	assert(value != 0, "Card value is zero")
 
-	EventBusGame.draft_card_select.connect(_on_draft_card_select)
+	EventBusGame.card_select.connect(_on_card_select)
 
 	_selection_sprite = $Selection
 	_selection_sprite.visible = false
@@ -56,10 +56,10 @@ func _on_area_2d_input_event(_viewport, event, _shape_idx):
 		return
 
 	if event is InputEventMouseButton:
-		EventBusGame.card_select.emit(index)
+		EventBusGame.draft_card_select.emit(index)
 		_click_timer.start()
 
-func _on_draft_card_select(idx: int, selected: bool):
+func _on_card_select(idx: int, selected: bool):
 	if idx == index:
 		_selected = selected
 		_selection_sprite.visible = _selected

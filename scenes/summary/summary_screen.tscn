@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://ck8ofiulky4qg"]
+[gd_scene load_steps=14 format=3 uid="uid://ck8ofiulky4qg"]
 
 [ext_resource type="Script" path="res://scenes/summary/summary.gd" id="1_wasfa"]
 [ext_resource type="Texture2D" uid="uid://csefkkbuvh5l7" path="res://assets/graphics/shopkeeper.png" id="2_hdx22"]
@@ -19,10 +19,24 @@ border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
 border_color = Color(0.988235, 0.988235, 0.988235, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3j8ud"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [node name="SummaryScreen" type="CenterContainer"]
 anchors_preset = 8
@@ -99,345 +113,367 @@ theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 64
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 64
 alignment = 1
 
-[node name="LeftSide" type="VBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer"]
+[node name="LeftSide" type="VBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide"]
-layout_mode = 2
-theme_override_constants/separation = 8
-alignment = 1
-
-[node name="Triangles" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/LeftSide"]
 layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Triangles"]
+[node name="Triangles" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/LeftSide/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/LeftSide/VBoxContainer/Triangles"]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 texture = ExtResource("4_y7kbq")
 stretch_mode = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Triangles"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/LeftSide/VBoxContainer/Triangles"]
 layout_mode = 2
 alignment = 1
 
-[node name="TriangleCart" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Triangles/HBoxContainer"]
+[node name="TriangleCart" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/LeftSide/VBoxContainer/Triangles/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "0"
 
-[node name="Separator" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Triangles/HBoxContainer"]
+[node name="Separator" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/LeftSide/VBoxContainer/Triangles/HBoxContainer"]
 layout_mode = 2
 text = "/"
 
-[node name="TriangleWishlist" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Triangles/HBoxContainer"]
+[node name="TriangleWishlist" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/LeftSide/VBoxContainer/Triangles/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "0"
 
-[node name="Rectangles" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer"]
+[node name="Rectangles" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/LeftSide/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Rectangles"]
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/LeftSide/VBoxContainer/Rectangles"]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 texture = ExtResource("5_d0ut5")
 stretch_mode = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Rectangles"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/LeftSide/VBoxContainer/Rectangles"]
 layout_mode = 2
 alignment = 1
 
-[node name="RectangleCart" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Rectangles/HBoxContainer"]
+[node name="RectangleCart" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/LeftSide/VBoxContainer/Rectangles/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "0"
 
-[node name="Separator" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Rectangles/HBoxContainer"]
+[node name="Separator" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/LeftSide/VBoxContainer/Rectangles/HBoxContainer"]
 layout_mode = 2
 text = "/"
 
-[node name="RectangleWishlist" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Rectangles/HBoxContainer"]
+[node name="RectangleWishlist" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/LeftSide/VBoxContainer/Rectangles/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "0"
 
-[node name="Circles" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer"]
+[node name="Circles" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/LeftSide/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Circles"]
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/LeftSide/VBoxContainer/Circles"]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 texture = ExtResource("6_wxvc8")
 stretch_mode = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Circles"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/LeftSide/VBoxContainer/Circles"]
 layout_mode = 2
 alignment = 1
 
-[node name="CircleCart" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Circles/HBoxContainer"]
+[node name="CircleCart" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/LeftSide/VBoxContainer/Circles/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "0"
 
-[node name="Separator" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Circles/HBoxContainer"]
+[node name="Separator" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/LeftSide/VBoxContainer/Circles/HBoxContainer"]
 layout_mode = 2
 text = "/"
 
-[node name="CircleWishlist" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/LeftSide/VBoxContainer/Circles/HBoxContainer"]
+[node name="CircleWishlist" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/LeftSide/VBoxContainer/Circles/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "0"
 
-[node name="RightSide" type="VBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer"]
+[node name="RightSide" type="VBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide"]
 layout_mode = 2
 
-[node name="PriceGoal" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer"]
+[node name="PriceGoal" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="PriceGoalText" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/PriceGoal"]
+[node name="PriceGoalText" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/PriceGoal"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Total items cost:"
 
-[node name="PriceGoalValue" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/PriceGoal"]
+[node name="PriceGoalValue" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/PriceGoal"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "0"
 
-[node name="StartingBudget" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer"]
+[node name="StartingBudget" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 17
 alignment = 1
 
-[node name="StartingBudgetText" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/StartingBudget"]
+[node name="StartingBudgetText" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/StartingBudget"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Original budget:"
 
-[node name="StartingBudgetValue" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/StartingBudget"]
+[node name="StartingBudgetValue" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/StartingBudget"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "0"
 
-[node name="MoneySpent" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer"]
+[node name="MoneySpent" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 27
 
-[node name="MoneySpentLabel" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent"]
+[node name="MoneySpentLabel" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneySpent"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Money spent:"
 
-[node name="MoneyBox" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent"]
+[node name="MoneyBox" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneySpent"]
 layout_mode = 2
 
-[node name="1" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox"]
+[node name="1" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox"]
 layout_mode = 2
 theme_override_constants/separation = -4
 alignment = 1
 
-[node name="BillSpent1" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/1"]
+[node name="BillSpent1" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/1"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 
-[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/1"]
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/1"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture = ExtResource("7_0osay")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="5" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox"]
+[node name="5" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox"]
 layout_mode = 2
 theme_override_constants/separation = -4
 alignment = 1
 
-[node name="BillSpent5" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/5"]
+[node name="BillSpent5" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/5"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 
-[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/5"]
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/5"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture = ExtResource("8_xhg6k")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="10" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox"]
+[node name="10" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox"]
 layout_mode = 2
 theme_override_constants/separation = -4
 alignment = 1
 
-[node name="BillSpent10" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/10"]
+[node name="BillSpent10" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/10"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 
-[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/10"]
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/10"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture = ExtResource("9_658c7")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="20" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox"]
+[node name="20" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox"]
 layout_mode = 2
 theme_override_constants/separation = -4
 alignment = 1
 
-[node name="BillSpent20" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/20"]
+[node name="BillSpent20" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/20"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 
-[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/20"]
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/20"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture = ExtResource("10_y4rd0")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="50" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox"]
+[node name="50" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox"]
 layout_mode = 2
 theme_override_constants/separation = -4
 alignment = 1
 
-[node name="BillSpent50" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/50"]
+[node name="BillSpent50" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/50"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 
-[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/50"]
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneySpent/MoneyBox/50"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture = ExtResource("11_6yeym")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="MoneyBurned" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer"]
+[node name="MoneyBurned" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="MoneyBurnedLabel" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned"]
+[node name="MoneyBurnedLabel" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneyBurned"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Money burned:"
 
-[node name="MoneyBox" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned"]
+[node name="MoneyBox" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneyBurned"]
 layout_mode = 2
 
-[node name="1" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox"]
+[node name="1" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox"]
 layout_mode = 2
 theme_override_constants/separation = -4
 alignment = 1
 
-[node name="BillBurned1" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/1"]
+[node name="BillBurned1" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/1"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 
-[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/1"]
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/1"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture = ExtResource("7_0osay")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="5" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox"]
+[node name="5" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox"]
 layout_mode = 2
 theme_override_constants/separation = -4
 alignment = 1
 
-[node name="BillBurned5" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/5"]
+[node name="BillBurned5" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/5"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 
-[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/5"]
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/5"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture = ExtResource("8_xhg6k")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="10" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox"]
+[node name="10" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox"]
 layout_mode = 2
 theme_override_constants/separation = -4
 alignment = 1
 
-[node name="BillBurned10" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/10"]
+[node name="BillBurned10" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/10"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 
-[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/10"]
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/10"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture = ExtResource("9_658c7")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="20" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox"]
+[node name="20" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox"]
 layout_mode = 2
 theme_override_constants/separation = -4
 alignment = 1
 
-[node name="BillBurned20" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/20"]
+[node name="BillBurned20" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/20"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 
-[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/20"]
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/20"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture = ExtResource("10_y4rd0")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="50" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox"]
+[node name="50" type="HBoxContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox"]
 layout_mode = 2
 theme_override_constants/separation = -4
 alignment = 1
 
-[node name="BillBurned50" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/50"]
+[node name="BillBurned50" type="Label" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/50"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0"
 
-[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/50"]
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/HBoxContainer/RightSide/VBoxContainer/MoneyBurned/MoneyBox/50"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 texture = ExtResource("11_6yeym")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 128
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 128
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3j8ud")
+
+[node name="RestartButton" type="Button" parent="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/MarginContainer/PanelContainer"]
+layout_mode = 2
+focus_mode = 0
+text = "New Game"
+flat = true
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/BottomHalf/VBoxContainer/MarginContainer/PanelContainer/RestartButton" to="." method="_on_restart_button_pressed"]

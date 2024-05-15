@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://ewkr0fslbpdq"]
+
+[ext_resource type="Texture2D" uid="uid://c3rvxifhx2e0f" path="res://assets/graphics/selection_highlight.png" id="1_1axbm"]
+
+[node name="SelectionHighlight" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_1axbm")
+offset = Vector2(1, -4)

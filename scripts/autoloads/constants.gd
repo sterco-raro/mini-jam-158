@@ -25,4 +25,16 @@ const PREFAB_CARDS: Dictionary = {
 	CARDS.EPSILON: 	preload("res://scenes/cards/card_epsilon.tscn")
 }
 
-const PREFAB_ITEMS: Dictionary = {}
+const PREFAB_ITEMS: Dictionary = {
+	Constants.ITEMS.TRIANGLE: 	preload("res://scenes/items/item_triangle.tscn"),
+	Constants.ITEMS.RECTANGLE: 	preload("res://scenes/items/item_rectangle.tscn"),
+	Constants.ITEMS.CIRCLE: 	preload("res://scenes/items/item_circle.tscn"),
+}
+
+const CARD_VALUES: Dictionary = {
+	CARDS.ALPHA: 	1,
+	CARDS.BETA: 	5,
+	CARDS.GAMMA: 	10,
+	CARDS.DELTA: 	20,
+	CARDS.EPSILON: 	50,
+}

@@ -24,20 +24,16 @@ func _ready():
 	EventBusUi.resume.connect(_on_resume)
 
 	# Game signals
-	EventBusGame.game_new.connect(_handle_game_new)
-	EventBusGame.game_start.connect(_handle_game_start)
-	EventBusGame.game_end.connect(_handle_game_end)
+	EventBusGame.game_new.connect(_on_game_new)
+	EventBusGame.game_start.connect(_on_game_start)
+	EventBusGame.game_end.connect(_on_game_end)
 
-	EventBusGame.battle_start.connect(_on_battle_start)
+	EventBusGame.battle_request_deck.connect(_on_battle_request_deck)
 
 	EventBusGame.deck_add_cards.connect(_on_deck_add_cards)
 	EventBusGame.deck_update.connect(_on_deck_update)
 
 	EventBusGame.shopping_cart_add_item.connect(_on_shopping_cart_add_item)
-	EventBusGame.shopping_cart_remove_item.connect(_on_shopping_cart_remove_item)
-
-	EventBusGame.wishlist_add_item.connect(_on_wishlist_add_item)
-	EventBusGame.wishlist_remove_item.connect(_on_wishlist_remove_item)
 
 	EventBusGame.wishlist_randomize.connect(_on_wishlist_randomize)
 
@@ -52,22 +48,21 @@ func _ready():
 
 
 func _process(_delta: float):
-	# DEBUG CONTROLS
-	if Input.is_action_just_pressed("quit"):
-		get_tree().quit(0)
+	# Debug controls
+	#if Input.is_action_just_pressed("quit"):
+		#get_tree().quit(0)
 
-	if Input.is_action_just_pressed("test1"):
-		EventBusGame.game_end.emit(false)
-	elif Input.is_action_just_pressed("test2"):
-		EventBusGame.game_end.emit(true)
-	# END DEBUG CONTROLS
+	#if Input.is_action_just_pressed("test1"):
+		#EventBusGame.game_end.emit(false)
+	#elif Input.is_action_just_pressed("test2"):
+		#EventBusGame.game_end.emit(true)
 
 	if _running:
 		# Game over conditions
 		if shopping_cart.equals(wishlist):
 			EventBusGame.game_end.emit(true)
 		else:
-			if deck.is_empty():
+			if deck.get_size() <= 2:
 				EventBusGame.game_end.emit(false)
 
 
@@ -91,7 +86,7 @@ func _switch_scene(instance: Node):
 	EventBusUi.resume.emit()
 
 
-func _handle_game_new():
+func _on_game_new():
 	# Clear old game data
 	deck.clear()
 	shopping_cart.clear()
@@ -106,7 +101,7 @@ func _handle_game_new():
 	EventBusUi.deck_ui_update.emit(deck.available_cards, Constants.DECK_MAX_CARDS)
 
 
-func _handle_game_start():
+func _on_game_start():
 	var market_screen: MarketManager = ScenesData.SCENE_02_MARKET.instantiate()
 	_switch_scene(market_screen)
 	EventBusUi.deck_ui_update.emit(deck.available_cards, Constants.DECK_MAX_CARDS)
@@ -115,10 +110,11 @@ func _handle_game_start():
 	_running = true
 
 
-func _handle_game_end(win: bool):
+func _on_game_end(win: bool):
 	# TODO  update summary data
-	var summary: Summary = ScenesData.SCENE_03_SUMMARY.instantiate()
+	EventBusGame.summary_update_shopping_cart.emit(shopping_cart.data)
 
+	var summary: Summary = ScenesData.SCENE_04_SUMMARY.instantiate()
 	summary.win = win
 
 	_switch_scene(summary)
@@ -127,7 +123,7 @@ func _handle_game_end(win: bool):
 	_running = false
 
 
-func _on_battle_start():
+func _on_battle_request_deck():
 	var card: Card
 	var index: int = 0
 	var cards: Array[Card] = []
@@ -140,7 +136,7 @@ func _on_battle_start():
 			card.disable_tweens = true
 			cards.append(card)
 			index += 1
-	EventBusGame.battle_set_player_deck.emit(cards)
+	EventBusGame.battle_set_deck.emit(cards)
 
 
 func _on_deck_add_cards(cards: Array[Card]):
@@ -150,6 +146,8 @@ func _on_deck_add_cards(cards: Array[Card]):
 
 func _on_deck_update(cards: Array[Card]):
 	deck.update(cards)
+	for card: Card in cards:
+		card.queue_free()
 	EventBusUi.deck_ui_update.emit(deck.available_cards, deck.max_cards)
 
 
@@ -158,28 +156,13 @@ func _on_shopping_cart_add_item(item: Constants.ITEMS):
 	EventBusUi.shopping_cart_ui_update.emit(shopping_cart.data)
 
 
-func _on_shopping_cart_remove_item(item: Constants.ITEMS):
-	shopping_cart.remove_item(item)
-	EventBusUi.shopping_cart_ui_update.emit(shopping_cart.data)
-
-
-func _on_wishlist_add_item(item: Constants.ITEMS):
-	wishlist.add_item(item)
-	EventBusUi.wishlist_ui_update.emit(wishlist.data)
-
-
-func _on_wishlist_remove_item(item: Constants.ITEMS):
-	wishlist.remove_item(item)
-	EventBusUi.wishlist_ui_update.emit(wishlist.data)
-
-
 func _on_wishlist_randomize(items: Dictionary):
 	var total: int = 0
 	var value: int = 0
 
 	# Pick random values for each item
 	for key in items:
-		value = randi_range(0, items[key] / 2 + 1)
+		value = randi_range(0, max(1, items[key] / 2 - 1))
 		wishlist.set_item(key, value)
 		if value > 0:
 			total += 1
@@ -187,11 +170,10 @@ func _on_wishlist_randomize(items: Dictionary):
 	# Avoid empty wishlists
 	if total == 0:
 		var key = Constants.ITEMS.keys().pick_random()
-		value = randi_range(1, items[key] / 2 + 1)
+		value = randi_range(1, max(2, items[key] / 2 - 1))
 		wishlist.set_item(key, value)
 
 	EventBusUi.wishlist_ui_update.emit(wishlist.data)
 
 	# TODO better summary screen handling
-	EventBusGame.summary_update_wishlist.emit(wishlist)
-
+	EventBusGame.summary_update_wishlist.emit(wishlist.data)

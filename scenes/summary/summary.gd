@@ -1,9 +1,10 @@
 class_name Summary extends CenterContainer
 
-var TEXTURE_MAN_WIN = preload("res://assets/graphics/shopkeeper-surprised.png")
-var TEXTURE_MAN_LOSE = preload("res://assets/graphics/shopkeeper.png")
+const TEXTURE_MAN_WIN = preload("res://assets/graphics/shopkeeper-surprised.png")
+const TEXTURE_MAN_LOSE = preload("res://assets/graphics/shopkeeper.png")
 
 var win: bool = false
+
 
 func _ready():
 	var shopping_cart: Dictionary = EventBusGame.shopping_cart
@@ -16,7 +17,7 @@ func _ready():
 	# Calculate initial budget
 	var budget: int = 0
 	for key in starting_deck.keys():
-		budget += starting_deck[key]["value"] * starting_deck[key]["quantity"]
+		budget += Constants.CARD_VALUES[key] * starting_deck[key]
 
 	# Win/lose results
 	if win:#budget == total_items_cost:
@@ -29,31 +30,35 @@ func _ready():
 		%ManTexture.texture = TEXTURE_MAN_LOSE
 
 	# Shopping cart
-	%TriangleCart.text = "%d" % shopping_cart["Triangle"]
-	%RectangleCart.text = "%d" % shopping_cart["Rectangle"]
-	%CircleCart.text = "%d" % shopping_cart["Circle"]
+	%TriangleCart.text = "%d" % shopping_cart[Constants.ITEMS.TRIANGLE]
+	%RectangleCart.text = "%d" % shopping_cart[Constants.ITEMS.RECTANGLE]
+	%CircleCart.text = "%d" % shopping_cart[Constants.ITEMS.CIRCLE]
 
 	# Wishlist
-	%TriangleWishlist.text = "%d" % wishlist["Triangle"]
-	%RectangleWishlist.text = "%d" % wishlist["Rectangle"]
-	%CircleWishlist.text = "%d" % wishlist["Circle"]
+	%TriangleWishlist.text = "%d" % wishlist[Constants.ITEMS.TRIANGLE]
+	%RectangleWishlist.text = "%d" % wishlist[Constants.ITEMS.RECTANGLE]
+	%CircleWishlist.text = "%d" % wishlist[Constants.ITEMS.CIRCLE]
 
 	# Cards played
-	%BillSpent1.text = "%d" % used_cards["Alpha"]["quantity"]
-	%BillSpent5.text = "%d" % used_cards["Beta"]["quantity"]
-	%BillSpent10.text = "%d" % used_cards["Gamma"]["quantity"]
-	%BillSpent20.text = "%d" % used_cards["Delta"]["quantity"]
-	%BillSpent50.text = "%d" % used_cards["Epsilon"]["quantity"]
+	%BillSpent1.text = "%d" % used_cards[Constants.CARDS.ALPHA]
+	%BillSpent5.text = "%d" % used_cards[Constants.CARDS.BETA]
+	%BillSpent10.text = "%d" % used_cards[Constants.CARDS.GAMMA]
+	%BillSpent20.text = "%d" % used_cards[Constants.CARDS.DELTA]
+	%BillSpent50.text = "%d" % used_cards[Constants.CARDS.EPSILON]
 
 	# Cards burned
-	%BillBurned1.text = "%d" % burned_cards["Alpha"]["quantity"]
-	%BillBurned5.text = "%d" % burned_cards["Beta"]["quantity"]
-	%BillBurned10.text = "%d" % burned_cards["Gamma"]["quantity"]
-	%BillBurned20.text = "%d" % burned_cards["Delta"]["quantity"]
-	%BillBurned50.text = "%d" % burned_cards["Epsilon"]["quantity"]
+	%BillBurned1.text = "%d" % burned_cards[Constants.CARDS.ALPHA]
+	%BillBurned5.text = "%d" % burned_cards[Constants.CARDS.BETA]
+	%BillBurned10.text = "%d" % burned_cards[Constants.CARDS.GAMMA]
+	%BillBurned20.text = "%d" % burned_cards[Constants.CARDS.DELTA]
+	%BillBurned50.text = "%d" % burned_cards[Constants.CARDS.EPSILON]
 
 	# Total items cost
 	%PriceGoalValue.text = "%d$" % total_items_cost
 
 	# Initial budget
 	%StartingBudgetValue.text = "%d$" % budget
+
+
+func _on_restart_button_pressed() -> void:
+	EventBusGame.game_new.emit()
