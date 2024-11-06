@@ -26,7 +26,7 @@ EventBusUi="*res://scripts/autoloads/event_bus_ui.gd"
 
 window/size/viewport_width=800
 window/size/viewport_height=600
-window/size/resizable=false
+window/stretch/mode="viewport"
 
 [dotnet]
 
